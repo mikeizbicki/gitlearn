@@ -16,7 +16,7 @@ set -a
 classname="ucr-cs100"
 
 # tmp folder for all student repos
-tmpdir="gradetmp"
+tmpdir="$HOME/.gitlearn/$classname"
 
 # branch of student git repository that stores the grades
 gradesbranch="grades"
@@ -235,7 +235,7 @@ function uploadGrades {
         git add $file
     done
 
-    git commit -S -m "graded assignment using automatic scripts"
+    git commit -S -m "graded assignment for $1 using automatic scripts"
 
     echo "changes committed... uploading to github"
     git push origin "$gradesbranch"
@@ -309,7 +309,7 @@ function totalGrade {
     if [ -z "$assn" ]; then
         assn="."
     fi
-    for f in `find "./$tmpdir/$classname-$1/$assn" -name grade`; do
+    for f in `find "$tmpdir/$classname-$1/$assn" -name grade`; do
         if isGraded "$f"; then
             local grade=$(getGrade "$f")
             totalgrade=$[$totalgrade+$grade]
@@ -325,7 +325,7 @@ function runningTotalOutOf {
     if [ -z "$assn" ]; then
         assn="."
     fi
-    for f in `find "./$tmpdir/$classname-$1/$assn" -name grade`; do
+    for f in `find "$tmpdir/$classname-$1/$assn" -name grade`; do
         if isGraded "$f"; then
             local outof=$(getOutOf "$f")
             totaloutof=$[$totaloutof+$outof]
@@ -341,7 +341,7 @@ function totalOutOf {
     if [ -z "$assn" ]; then
         assn="."
     fi
-    for f in `find "./$tmpdir/$classname-$1/$assn" -name grade`; do
+    for f in `find "$tmpdir/$classname-$1/$assn" -name grade`; do
         local outof=$(getOutOf "$f")
         totaloutof=$[$totaloutof+$outof]
     done
@@ -381,11 +381,11 @@ function colorPercent {
     local per="$1"
     if [[ -z $1 ]]; then
         resetColor
-    elif ((`bc <<< "$per>90"`)); then
+    elif ((`bc <<< "$per>=90"`)); then
         printf "$green"
-    elif ((`bc <<< "$per>80"`)); then
+    elif ((`bc <<< "$per>=80"`)); then
         printf "$cyn"
-    elif ((`bc <<< "$per>70"`)); then
+    elif ((`bc <<< "$per>=70"`)); then
         printf "$yellow"
     else
         printf "$red"

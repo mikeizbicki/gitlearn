@@ -43,7 +43,7 @@ echo "==========================================================================
 echo "    grade        |  assignment                     |  grader"
 echo "==============================================================================="
 
-cd "./$tmpdir/$classname-$user"
+cd "$tmpdir/$classname-$user"
 for f in `find . -name grade | sort`; do
     dir=`dirname $f`
     assn=$(pad "$(basename $dir)" 30)

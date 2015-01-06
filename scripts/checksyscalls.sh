@@ -1,15 +1,20 @@
 #!/bin/bash
 
 #
-# This script takes any number of CPP files as parameters.  For each file, it
-# checks to see if there is a matching call to perror for every syscall.  If
-# there is not, we assume that proper error checking is not happening.  Then
-# we output a grade modifier that deducts 5 points for every extra syscall.
+# This script takes any number of CPP files as parameters.
+# For each file, it checks to see if there is a matching call to perror for every syscall.
+# If there is not, we assume that proper error checking is not happening.
+# Then we output a grade modifier that deducts 5 points for every extra syscall.
 #
-# BUGS: This script will only detect syscalls if they are immediately followed
-# by a parenthesis.  This should never overcount syscalls, but could undercount
-# them in the presence of macros, function pointers, or other fanciness.
+# BUGS:
+# This script will only detect syscalls if they are immediately followed by a parenthesis.
+# This should never overcount syscalls, but could undercount them in the presence of macros, function pointers, or other fanciness.
 #
+# TODO:
+# Currently, we run the script on the raw source.
+# Would it be better to run the script after the preprocessor has run?
+#
+
 scriptdir=`dirname "$0"`
 #source "$scriptdir/config.sh"
 

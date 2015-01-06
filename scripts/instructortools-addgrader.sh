@@ -67,3 +67,4 @@ echo "adding key to class repository"
 git add "$output"
 git commit -m "added instructor $name <$email> to class"
 git push origin
+
