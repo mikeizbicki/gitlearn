@@ -1,10 +1,11 @@
 # what is gitlearn?
 
-Gitlearn is an alternative to ilearn for managing grades in a course.
+Gitlearn is an open source [learning management system](http://en.wikipedia.org/wiki/Learning_management_system) (similar to [ilearn/blackboard](http://www.blackboard.com/)).
+The distinguishing feature of gitlearn is that classes and grades are stored in git repositories.
 
 ## how gitlearn stores grades
 
-Every class has an associated repo.
+Every class has an associated repository.
 This repo contains all the information about the class.
 Inside this repo is a folder called `assignments`;
 every subfolder of `assignments` corresponds to an assignment in the course.
@@ -38,18 +39,15 @@ If the assignment has not yet been graded, then the `grade` file will contain ju
 
 ## checking your overall grade
 
-You can use the `scripts/calcgrade.sh` script to calculate your whole grade for the course.
-This script automatically downloads the latest version of your repo, inspects the grade you received on each assignment, and calculates your current and final grades for the course.
+You can use the `calcgrade.sh` script to calculate your whole grade for the course.
+This script automatically downloads the latest version of your grades repo, inspects the grade you received on each assignment, and calculates your current and final grades for the course.
 
 The `calcgrade.sh` script expects a single argument that corresponds to the UCR netid/CS account of the grade you want to check.
 For example, if you want to find the grade of the `examplestudent` account, you would run:
-
 ```
-$ ./scripts/calcgrade.sh examplestudent
+$ calcgrade.sh examplestudent
 ```
-
 and the output looks something like:
-
 ```
 finding grade for github account examplestudent
 repository exists... fetching ORIGIN
@@ -79,7 +77,6 @@ repository exists... fetching ORIGIN
 running total =  190 /  320 = 58.64
 overall total =  190 /  550 = 34.29
 ```
-
 Notice that ungraded assignments are marked with a grade of `---` and not included in the running total.
 
 ## cheating
@@ -113,8 +110,6 @@ Date:   Sat Jul 12 11:52:42 2014 -0700
 
 This tells us who has modified the file and what they've done.
 If you modify your grades, we will catch you.
-As a reminder, I take cheating very seriously.
-I will forward your case to the academic conduct committee and recommend you be expelled from UCR.
 
 If you are an advanced git user, you may be aware that it's possible to commit changes under other people's names using the `--author` flag.
 All of our grading scripts, however, sign the commits we make using the RSA public key crypto system.
@@ -125,18 +120,8 @@ I encourage you to try to "hack" this grading system.
 And if you find a way to change your grades in any way, I will give you a considerable amount of extra credit in this course.
 But please do it responsibly and let the instructors know what you're doing before you try.
 
-# grades
-
-We will not be using ilearn in this course.
-Instead, we will use git.
-All of your grade information will be stored in the `grades` branch of the repo you forked during lab1.
-This file contains detailed information about how your grades will be stored in that branch.
-
 **IMPORTANT:**
 If you did not give all of the instructors write access to your repository (make them collaborators on github), then you won't be able to get your grades updated, and you will get zeros on the assignments!
-
-**IMPORTANT:**
-Always make sure you're in the right branch when making changes to the repo! You never want to accidentally erase your grades and end up with zeros!
 
 **IMPORTANT:**
 By default, github sets your repo to `public` and gives everyone read access.
