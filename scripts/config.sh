@@ -194,16 +194,30 @@ function downloadRepo {
         echo "  running git clone on [$giturl]"
 	    git clone --quiet "$giturl" "$clonedir"
 	    cd "$clonedir"
+
+        # checkout the branch if it's not the default branch
+        # (in that case, it would already be checked out)
 	    local defaultbranch=`git branch -r | grep origin/HEAD | grep -o "[a-zA-Z0-9_-]*$"`
-        if [ ! -z "$branch" ] && [ $branch != $defaultbranch ]; then
-            git checkout "$branch" --quiet
-            git pull origin "$branch" --quiet > /dev/null 2> /dev/null
+        if [ ! -z "$branch" ] && [ "$branch" != "$defaultbranch" ]; then
+
+            # if the branch doesn't exist, create it
+            if [ -z "$(git branch --list $branch)" ]; then
+                echo "creating branch" >&2
+                git checkout -b "$branch" --quiet
+
+            # the branch exists, so just check it out
+            else
+                echo "checkout branch" >&2
+                git checkout "$branch" --quiet
+                git pull origin "$branch" --quiet > /dev/null 2> /dev/null
+            fi
         fi
         cd "$dir"
     else
         echo "  running git pull in [$clonedir]"
         cd "$clonedir"
-        #if branch is zero, assign to it the deafult branch. This assignment cannot occur above as the folder might not even exist then.
+        # If branch is empty, assign to it the default branch.
+        # This assignment cannot occur above as the folder might not even exist then.
         if [ -z "$branch" ]; then
             branch=`git branch -r | grep origin/HEAD | grep -o "[a-zA-Z0-9_-]*$"`
         fi
