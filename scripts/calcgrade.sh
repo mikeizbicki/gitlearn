@@ -11,11 +11,11 @@ source "$scriptdir/config.sh"
 ########################################
 # check for valid command line params
 
+#if [ -z $user ]; then
+    #user="$USER"
+#else
 user=$(simplifycsaccount "$1")
-if [ -z $user ]; then
-    echo "no github account given"
-    exit
-fi
+#fi
 
 #######################################
 # check if instructor keys are installed
@@ -25,7 +25,7 @@ checkKeys
 #######################################
 # calculate stats
 
-echo "finding grade for github account $user"
+echo "finding grade for $(getStudentInfo $user name) ($user)"
 downloadGrades "$user"
 
 totalgrade=$(totalGrade "$user")

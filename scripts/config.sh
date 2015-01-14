@@ -4,7 +4,15 @@
 # This script contains common configuration settings and functions.
 #
 
-cd $scriptdir
+
+# if gitlearn isn't installed as an env var, then run locally
+if [ -z "$GITLEARN_CLASSDIR" ]; then
+    cd $scriptdir
+
+# otherwise, run in installed folder
+else
+    cd $GITLEARN_CLASSDIR
+fi
 
 # export all variables to subshells
 set -a
