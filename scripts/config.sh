@@ -168,9 +168,17 @@ function downloadAllProjects {
     echo "downloading repos..."
     accountlist=$(getStudentList)
 
+    # we can only massively parallelize downloads if we've already cloned the repos previously
+    numReposAlreadyDownloaded=$(ls "$tmpdir" | grep "$1" | wc -l)
+    numStudents=$(ls "$studentinfo" | wc -l)
+    if [ "$numReposAlreadyDownloaded" -ge "$numStudents" ]; then
+        maxparallel=100
+    else
+        maxparallel=4
+    fi
+
     # this weird xargs command runs all of the downloadProject functions in parallel
-    if ! (echo "$accountlist" | xargs -n 1 -P 100 bash -c "downloadProject $1 \$1 $2" -- ); then
-    #if ! (echo "$accountlist" | xargs -n 1 -P 1 bash -c "downloadProject $1 \$1 $2" -- ); then
+    if ! (echo "$accountlist" | xargs -n 1 -P "$maxparallel" bash -c "downloadProject $1 \$1 $2" -- ); then
         echo "ERROR: some repos failed to download;"
         echo "sometimes we exceed github's connection limits due to parallel downloading;"
         echo "trying again might work?"
@@ -202,16 +210,30 @@ function downloadRepo {
         echo "  running git clone on [$giturl]"
 	    git clone --quiet "$giturl" "$clonedir"
 	    cd "$clonedir"
+
+        # checkout the branch if it's not the default branch
+        # (in that case, it would already be checked out)
 	    local defaultbranch=`git branch -r | grep origin/HEAD | grep -o "[a-zA-Z0-9_-]*$"`
-        if [ ! -z "$branch" ] && [ $branch != $defaultbranch ]; then
-            git checkout "$branch" --quiet
-            git pull origin "$branch" --quiet > /dev/null 2> /dev/null
+        if [ ! -z "$branch" ] && [ "$branch" != "$defaultbranch" ]; then
+
+            # if the branch doesn't exist, create it
+            if [ -z "$(git branch --list $branch)" ]; then
+                echo "  $branch doesn't exist in $clonedir... creating branch" >&2
+                git checkout -b "$branch" --quiet
+
+            # the branch exists, so just check it out
+            else
+                echo "  checked out branch $branch in $clonedir" >&2
+                git checkout "$branch" --quiet
+                git pull origin "$branch" --quiet > /dev/null 2> /dev/null
+            fi
         fi
         cd "$dir"
     else
         echo "  running git pull in [$clonedir]"
         cd "$clonedir"
-        #if branch is zero, assign to it the deafult branch. This assignment cannot occur above as the folder might not even exist then.
+        # If branch is empty, assign to it the default branch.
+        # This assignment cannot occur above as the folder might not even exist then.
         if [ -z "$branch" ]; then
             branch=`git branch -r | grep origin/HEAD | grep -o "[a-zA-Z0-9_-]*$"`
         fi
@@ -229,7 +251,8 @@ function uploadAllGrades {
     accountlist=$(getStudentList)
 
     # this weird xargs command runs all of the uploadGrades functions in parallel
-    if ! (echo "$accountlist" | xargs -n 1 -P 4 bash -c "uploadGrades \$1" -- ); then
+    maxparallel=1
+    if ! (echo "$accountlist" | xargs -n 1 -P "$maxparallel" bash -c "uploadGrades \$1" -- ); then
         error "ERROR: some repos failed to upload; sometimes we exceed github's connection limits due to parallel uploading; trying again might work?"
     fi
     echo "done"
@@ -298,7 +321,8 @@ function isGraded {
 
 # $1 = the grade file
 function getGrade {
-    head -n 1 "$1" | sed 's/\// /' | awk '{print $1;}'
+    head -n 1 "$1" | cut -d'/' -f1 | sed 's/ *//g'
+    #head -n 1 "$1" | sed 's/\// /' | awk '{print $1;}'
 }
 
 # $1 = the grade file
@@ -468,24 +492,10 @@ function includesKey
     fi
 }
 
-##########################################
-#checks if keys are installed
-checkKeys()
+installInstructorKeys()
 {
-    which gpg > /dev/null 2> /dev/null
-    if [ ! $? -eq 0 ];then
-        error "you need to install gpg:$yellow https://www.gnupg.org/download/"
-    fi
-    for INST in people/instructors/*;do
-        local STR=${INST##*/}
-        if [[ $STR == *@* ]];then
-            gpg --list-keys $STR  > /dev/null 2> /dev/null
-            if [ ! $? -eq 0 ] ;then
-                warning "Instructor keys were not installed! Installing..."
-                scripts/install-instructor-keys.sh
-                echo -e "$green Done installing keys!!$endcolor"
-            fi
-        fi
+    for file in "$instructorinfo/*"; do
+        gpg --import $file > /dev/null 2> /dev/null
     done
 }
 

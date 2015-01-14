@@ -20,7 +20,7 @@ user=$(simplifycsaccount "$1")
 #######################################
 # check if instructor keys are installed
 
-checkKeys
+insallInstructorKeys
 
 #######################################
 # calculate stats
