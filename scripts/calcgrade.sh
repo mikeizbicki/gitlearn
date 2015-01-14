@@ -20,7 +20,7 @@ fi
 #######################################
 # check if instructor keys are installed
 
-checkKeys
+insallInstructorKeys
 
 #######################################
 # calculate stats
