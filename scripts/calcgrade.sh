@@ -11,16 +11,16 @@ source "$scriptdir/config.sh"
 ########################################
 # check for valid command line params
 
-#if [ -z $user ]; then
-    #user="$USER"
-#else
-user=$(simplifycsaccount "$1")
-#fi
+if [ -z $user ]; then
+    user="$USER"
+else
+    user=$(simplifycsaccount "$1")
+fi
 
 #######################################
 # check if instructor keys are installed
 
-insallInstructorKeys
+installInstructorKeys
 
 #######################################
 # calculate stats

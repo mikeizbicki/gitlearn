@@ -176,6 +176,7 @@ function downloadAllProjects {
     else
         maxparallel=4
     fi
+    maxparallel=1
 
     # this weird xargs command runs all of the downloadProject functions in parallel
     if ! (echo "$accountlist" | xargs -n 1 -P "$maxparallel" bash -c "downloadProject $1 \$1 $2" -- ); then
