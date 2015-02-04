@@ -7,10 +7,18 @@
 
 # if gitlearn isn't installed as an env var, then run locally
 if [ -z "$GITLEARN_CLASSDIR" ]; then
-    cd $scriptdir
+    echo "running local gitlearn at location [$(pwd)]" >&2
+
+    # verify that we are currently in a local gitlearn directory
+    # FIXME: make this a separate function and more robust
+    if [ ! -d "assignments" ]; then
+        echo "error: this does not appear to be a valid gitlearn configuration"
+    fi
 
 # otherwise, run in installed folder
 else
+    echo "running installed gitlearn: $GITLEARN_CLASSDIR" >&2
+    # FIXME: validate the installed directory
     cd $GITLEARN_CLASSDIR
 fi
 
@@ -115,6 +123,7 @@ function getStudentInfo {
         error "attribute not given"
     fi
 
+    pwd
     # FIXME: this matches any attribute that contains $2 rather than equals $2
     ret=$(awk -F "=" "/^$2/ {print \$2}" "$studentinfo/$csaccount" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     if [ -z "$ret" ]; then
@@ -136,6 +145,7 @@ function simplifycsaccount {
 
 # $1 = the student's github account
 function github2csaccount {
+    pwd
     local student=$(grep -r "^[[:space:]]*github[[:space:]]*=[[:space:]]*$1[[:space:]]*\$" ./people/students/ | cut -d':' -f 1)
     if [ ! -z "$student" ]; then
         basename "$student"
