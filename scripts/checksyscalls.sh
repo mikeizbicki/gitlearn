@@ -15,6 +15,7 @@
 # Would it be better to run the script after the preprocessor has run?
 #
 
+
 scriptdir=`dirname "$0"`
 #source "$scriptdir/config.sh"
 
@@ -47,7 +48,7 @@ fi
 source "$scriptdir/config.sh"
 
 # we'll pipe files through these commands to remove spurious counts
-rmcomments="scripts/rmcomments.sh"
+rmcomments="$PWD/gitlearn/scripts/rmcomments.sh"
 rmstr="sed s/\"[^\"]*\"//g"
 rminclude="sed s/#.*//"
 
