@@ -48,7 +48,7 @@ fi
 source "$scriptdir/config.sh"
 
 # we'll pipe files through these commands to remove spurious counts
-rmcomments="/usr/csshare/cs100/src/ucr-cs100/gitlearn/scripts/rmcomments.sh"
+rmcomments="$PWD/gitlearn/scripts/rmcomments.sh"
 rmstr="sed s/\"[^\"]*\"//g"
 rminclude="sed s/#.*//"
 
