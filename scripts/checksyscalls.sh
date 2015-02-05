@@ -77,6 +77,7 @@ syscalls="
     readdir_r
     readlink
     lstat
+    fstat
     stat
     pipe
     dup2
