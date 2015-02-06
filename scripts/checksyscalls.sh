@@ -155,11 +155,11 @@ echo "  grade modifier....... -$grademod"
 #echo
 #echo "relevant system calls:"
 #for syscall in $syscalls; do
-#cat $@ | $rmcomment | $rmstr | grep -ne "$syscall" "$1"
+#cat $@ | rmcomments $@ | $rmstr | grep -ne "$syscall" "$1"
 #done
 #
 #echo
 #echo "relevant perror calls:"
-#cat $@ | $rmcomment | $rmstr | grep -ne "\<perror\>" "$1"
+#cat $@ | rmcomments $@ | $rmstr | grep -ne "\<perror\>" "$1"
 
 exit $grademod
