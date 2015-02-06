@@ -1,6 +1,15 @@
 #!/bin/bash
+#! /bin/sed -nf
 
-#
+
+function rmcomments () {
+ 
+         sed 's|/\*|\n&|g;s|*/|&\n|g' ${1}  | sed '/\/\*/,/*\//d'           # remove the comment using sed
+}
+
+
+
+
 # This script takes any number of CPP files as parameters.
 # For each file, it checks to see if there is a matching call to perror for every syscall.
 # If there is not, we assume that proper error checking is not happening.
@@ -14,7 +23,6 @@
 # Currently, we run the script on the raw source.
 # Would it be better to run the script after the preprocessor has run?
 #
-
 
 scriptdir=`dirname "$0"`
 #source "$scriptdir/config.sh"
@@ -48,7 +56,8 @@ fi
 source "$scriptdir/config.sh"
 
 # we'll pipe files through these commands to remove spurious counts
-rmcomments="$PWD/gitlearn/scripts/rmcomments.sh"
+#rmcommnets = "rmcomment"
+
 rmstr="sed s/\"[^\"]*\"//g"
 rminclude="sed s/#.*//"
 
@@ -78,6 +87,7 @@ syscalls="
     readdir_r
     readlink
     lstat
+    fstat
     stat
     pipe
     dup2
@@ -104,11 +114,11 @@ for syscall in $syscalls; do
 done
 
 # calculate number of syscalls
-syscalls=`cat $@ | "$rmcomments" | $rmstr | $rminclude | sed -e 's/^[ \t]*//' | grep -o $args -n | sed -e 's/^\([1234567890][1234567890]\):/0\1:/' | sed -e 's/\([1234567890]\):/\1:  /'`
+syscalls=`cat $@ | rmcomments $@ | $rmstr | $rminclude | sed -e 's/^[ \t]*//' | grep -o $args -n | sed -e 's/^\([1234567890][1234567890]\):/0\1:/' | sed -e 's/\([1234567890]\):/\1:  /'`
 numsyscalls=$(echo "$syscalls" | wc -l)
 
 # calculate number of perror
-perrors=`cat $@ | "$rmcomments" | $rmstr | $rminclude | sed -e 's/^[ \t]*//' | grep -n -e "\<perror\>" | sed -e 's/^\([1234567890][1234567890]\):/0\1:/' | sed -e 's/\([1234567890]\):/\1:  /'`
+perrors=`cat $@ | rmcomments $@ | $rmstr | $rminclude | sed -e 's/^[ \t]*//' | grep -n -e "\<perror\>" | sed -e 's/^\([1234567890][1234567890]\):/0\1:/' | sed -e 's/\([1234567890]\):/\1:  /'`
 numperror=`echo "$perrors" | wc -l`
 
 # print vars
@@ -145,11 +155,11 @@ echo "  grade modifier....... -$grademod"
 #echo
 #echo "relevant system calls:"
 #for syscall in $syscalls; do
-    #cat $@ | $rmcomments | $rmstr | grep -ne "$syscall" "$1"
+#cat $@ | $rmcomment | $rmstr | grep -ne "$syscall" "$1"
 #done
 #
 #echo
 #echo "relevant perror calls:"
-#cat $@ | $rmcomments | $rmstr | grep -ne "\<perror\>" "$1"
+#cat $@ | $rmcomment | $rmstr | grep -ne "\<perror\>" "$1"
 
 exit $grademod
