@@ -15,9 +15,9 @@
 # Would it be better to run the script after the preprocessor has run?
 #
 
-scriptdir=`dirname "$0"`
-#source "$scriptdir/config.sh"
 
+# validate commandline args
+# if any argument is a directory, recursively call this script on all files within the directory
 if [ $# -eq 0 ]; then
     echo "usage: $0 filetograde"
     exit 1
@@ -44,10 +44,12 @@ else
     exit 0
 fi
 
-source "$scriptdir/config.sh"
+# we need to remove the comments from all the source files to ensure we don't overcount syscalls
+function rmcomments {
+    gcc -fpreprocessed -dD -E -
+}
 
 # we'll pipe files through these commands to remove spurious counts
-rmcomments="scripts/rmcomments.sh"
 rmstr="sed s/\"[^\"]*\"//g"
 rminclude="sed s/#.*//"
 
@@ -94,35 +96,39 @@ syscalls="
     system
     "
 
-#The regex will not match member operators like stream::open.
+# construct the args variable
+# it contains all the regexes we use to search for syscalls
 args=""
 for syscall in $syscalls; do
-
+    #the regex will not match member operators like stream::open.
     args="$args -e [^._]\<$syscall\>[^(]*([^)]*) -e ^\<$syscall\>[^(]*([^)]*) "
-    #args="$args -e \<$syscall\>[^(]*([^)]*) "
 done
 
 # calculate number of syscalls
-syscalls=`cat $@ | "$rmcomments" | $rmstr | $rminclude | sed -e 's/^[ \t]*//' | grep -o $args -n | sed -e 's/^\([1234567890][1234567890]\):/0\1:/' | sed -e 's/\([1234567890]\):/\1:  /'`
-numsyscalls=$(echo "$syscalls" | wc -l)
+syscalls=`cat $@ | rmcomments | $rmstr | $rminclude | sed -e 's/^[ \t]*//' | grep -o $args -n | sed -e 's/^\([1234567890][1234567890]\):/0\1:/' | sed -e 's/\([1234567890]\):/\1:  /'`
+numsyscalls=$(echo "$syscalls" | sed '/^$/d' | wc -l)
 
 # calculate number of perror
-perrors=`cat $@ | "$rmcomments" | $rmstr | $rminclude | sed -e 's/^[ \t]*//' | grep -n -e "\<perror\>" | sed -e 's/^\([1234567890][1234567890]\):/0\1:/' | sed -e 's/\([1234567890]\):/\1:  /'`
-numperror=`echo "$perrors" | wc -l`
+perrors=`cat $@ | rmcomments | $rmstr | $rminclude | sed -e 's/^[ \t]*//' | grep -n -e "\<perror\>" | sed -e 's/^\([1234567890][1234567890]\):/0\1:/' | sed -e 's/\([1234567890]\):/\1:  /'`
+numperror=`echo "$perrors" | sed '/^$/d' | wc -l`
 
-# print vars
+# FIXME: refactor the above regexes so that the common portion of the commands is removed
+
+# print the location of each function in $1 with color $2
 function printvars {
     [ ! -z "$2" ] && export GREP_COLOR="$2"
     if [ ! -z "$1" ]; then
         IFS=$'\n'
         for line in $1; do
             IFS=' '
-            echo "  $line" | grep -e "\<perror\>([^)]*)" $args --color=always
+            echo "  $line" | grep -e "\<perror\>.*([^)]*)" $args --color=always
         done
     fi
 }
 echo
-echo "lines with syscalls:"
+echo "file: [$1]"
+echo "perrors=[$perrors]"
+echo "  lines with syscalls:"
 out="$(printvars "$syscalls" '1;31')
      $(printvars "$perrors" '1;32')
     "
