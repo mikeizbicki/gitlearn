@@ -5,23 +5,6 @@
 #
 
 
-# if gitlearn isn't installed as an env var, then run locally
-if [ -z "$GITLEARN_CLASSDIR" ]; then
-    echo "running local gitlearn at location [$(pwd)]" >&2
-
-    # verify that we are currently in a local gitlearn directory
-    # FIXME: make this a separate function and more robust
-    if [ ! -d "assignments" ]; then
-        echo "error: this does not appear to be a valid gitlearn configuration"
-    fi
-
-# otherwise, run in installed folder
-else
-    echo "running installed gitlearn: $GITLEARN_CLASSDIR" >&2
-    # FIXME: validate the installed directory
-    cd $GITLEARN_CLASSDIR
-fi
-
 # export all variables to subshells
 set -a
 
@@ -46,6 +29,23 @@ studentinfo="people/students"
 #######################################
 # initialization (do not modify!)
 
+# if gitlearn isn't installed as an env var, then run locally
+if [ -z "$GITLEARN_CLASSDIR" ]; then
+    echo "running local gitlearn at location [$(pwd)]" >&2
+
+    # verify that we are currently in a local gitlearn directory
+    # FIXME: make this a separate function and more robust
+    if [ ! -d "assignments" ] || [ ! -d "people" ]; then
+        echo "error: this does not appear to be a valid gitlearn configuration"
+    fi
+
+# otherwise, run in installed folder
+else
+    echo "running installed gitlearn: $GITLEARN_CLASSDIR" >&2
+    # FIXME: validate the installed directory
+    cd $GITLEARN_CLASSDIR
+fi
+
 # let us quit the shell even if we're in a subshell
 trap "exit 1" TERM
 export TOP_PID=$$
@@ -56,9 +56,9 @@ function failScript {
 
 # cd to the repo's root folder by backtracking until we find the LICENSE file
 # this let's the scripts be run from any folder in the repo
-while [ ! -e "LICENSE" ]; do
-    cd ..
-done
+#while [ ! -e "LICENSE" ]; do
+    #cd ..
+#done
 
 #######################################
 # misc display functions
@@ -123,7 +123,6 @@ function getStudentInfo {
         error "attribute not given"
     fi
 
-    pwd
     # FIXME: this matches any attribute that contains $2 rather than equals $2
     ret=$(awk -F "=" "/^$2/ {print \$2}" "$studentinfo/$csaccount" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     if [ -z "$ret" ]; then
@@ -138,15 +137,14 @@ function getStudentInfo {
 function simplifycsaccount {
     local csaccount="$1"
     if [ $(echo "$1" | cut -d'=' -f 1) = "github" ]; then
-        csaccount=$(github2csaccount $(echo "$1" | cut -d'=' -f 2))
+        csaccount="$(github2csaccount $(echo "$1" | cut -d'=' -f 2))"
     fi
     echo "$csaccount"
 }
 
 # $1 = the student's github account
 function github2csaccount {
-    pwd
-    local student=$(grep -r "^[[:space:]]*github[[:space:]]*=[[:space:]]*$1[[:space:]]*\$" ./people/students/ | cut -d':' -f 1)
+    local student=$(grep -r "^[[:space:]]*github[[:space:]]*=[[:space:]]*$1[[:space:]]*\$" "$studentinfo" | cut -d':' -f 1)
     if [ ! -z "$student" ]; then
         basename "$student"
     else
