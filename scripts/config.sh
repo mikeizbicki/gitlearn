@@ -36,7 +36,7 @@ if [ -z "$GITLEARN_CLASSDIR" ]; then
     # verify that we are currently in a local gitlearn directory
     # FIXME: make this a separate function and more robust
     if [ ! -d "assignments" ] || [ ! -d "people" ]; then
-        echo "error: this does not appear to be a valid gitlearn configuration"
+        echo "error: this does not appear to be a valid gitlearn directory"
     fi
 
 # otherwise, run in installed folder
@@ -53,12 +53,6 @@ export TOP_PID=$$
 function failScript {
     kill -s TERM $TOP_PID
 }
-
-# cd to the repo's root folder by backtracking until we find the LICENSE file
-# this let's the scripts be run from any folder in the repo
-#while [ ! -e "LICENSE" ]; do
-    #cd ..
-#done
 
 #######################################
 # misc display functions
@@ -114,10 +108,6 @@ function getStudentList {
 # $1 = the student's csaccount (which is the name of file containing their info)
 # $2 = the attribute you want about the student
 function getStudentInfo {
-    #csaccount=$(simplifycsaccount $1)
-    #if [ -z "$csaccount" ] || [ ! -e "$studentinfo/$csaccount" ]; then
-        #error "student $csaccount does not exist"
-    #fi
     csaccount="$1"
     if [ -z "$2" ]; then
         error "attribute not given"
@@ -212,7 +202,7 @@ function downloadRepo {
     local clonedir="$1"
     local giturl="$2"
     local branch="$3"
-    local dir=$(pwd)
+    local olddir=$(pwd)
 
     # download repo
     if [ ! -d "$clonedir" ]; then
@@ -237,19 +227,27 @@ function downloadRepo {
                 git pull origin "$branch" --quiet > /dev/null 2> /dev/null
             fi
         fi
-        cd "$dir"
     else
         echo "  running git pull in [$clonedir]"
         cd "$clonedir"
-        # If branch is empty, assign to it the default branch.
-        # This assignment cannot occur above as the folder might not even exist then.
+        git pull --all --quiet > /dev/null 2> /dev/null
+
         if [ -z "$branch" ]; then
-            branch=`git branch -r | grep origin/HEAD | grep -o "[a-zA-Z0-9_-]*$"`
+            git checkout --quiet
+        else
+            git checkout "$branch" --quiet
         fi
-        git checkout "$branch" --quiet
-        git pull origin "$branch" --quiet > /dev/null 2> /dev/null
-        cd "$dir"
+
+        ## If branch is empty, assign to it the default branch.
+        ## This assignment cannot occur above as the folder might not even exist then.
+        #if [ -z "$branch" ]; then
+            #branch=`git branch -r | grep origin/HEAD | grep -o "[a-zA-Z0-9_-]*$"`
+        #fi
+        #git checkout "$branch" # --quiet
+        #git pull origin "$branch" # --quiet > /dev/null 2> /dev/null
     fi
+
+    cd "$olddir"
 }
 
 function uploadAllGrades {
@@ -353,7 +351,8 @@ function totalGrade {
     for f in `find "$tmpdir/$classname-$1/$assn" -name grade`; do
         if isGraded "$f"; then
             local grade=$(getGrade "$f")
-            totalgrade=$[$totalgrade+$grade]
+            totalgrade=$(bc <<< "$totalgrade + $grade")
+            #totalgrade=$[$totalgrade+$grade]
         fi
     done
     echo $totalgrade
@@ -369,7 +368,8 @@ function runningTotalOutOf {
     for f in `find "$tmpdir/$classname-$1/$assn" -name grade`; do
         if isGraded "$f"; then
             local outof=$(getOutOf "$f")
-            totaloutof=$[$totaloutof+$outof]
+            totaloutof=$(bc <<< "$totaloutof + $outof")
+            #totaloutof=$[$totaloutof+$outof]
         fi
     done
     echo "$totaloutof"
@@ -384,7 +384,8 @@ function totalOutOf {
     fi
     for f in `find "$tmpdir/$classname-$1/$assn" -name grade`; do
         local outof=$(getOutOf "$f")
-        totaloutof=$[$totaloutof+$outof]
+        totaloutof=$(bc <<< "$totaloutof + $outof")
+        #totaloutof=$[$totaloutof+$outof]
     done
     echo "$totaloutof"
 }

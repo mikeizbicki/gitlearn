@@ -11,11 +11,14 @@ source "$scriptdir/config.sh"
 ########################################
 # check for valid command line params
 
-if [ -z $user ]; then
+
+if [ -z $1 ]; then
     user="$USER"
 else
     user=$(simplifycsaccount "$1")
 fi
+echo "user=$user"
+echo "\$1=$1"
 
 #######################################
 # check if instructor keys are installed
