@@ -128,7 +128,6 @@ function printvars {
 }
 echo
 echo "file: [$1]"
-echo "perrors=[$perrors]"
 echo "  lines with syscalls:"
 out="$(printvars "$syscalls" '1;31')
      $(printvars "$perrors" '1;32')
