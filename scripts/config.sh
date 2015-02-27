@@ -230,12 +230,14 @@ function downloadRepo {
     else
         echo "  running git pull in [$clonedir]"
         cd "$clonedir"
-        git pull --all --quiet > /dev/null 2> /dev/null
+        git fetch --all --quiet > /dev/null 2> /dev/null
 
         if [ -z "$branch" ]; then
             git checkout --quiet
+            git pull origin master
         else
             git checkout "$branch" --quiet
+            git pull origin "$branch" --quiet > /dev/null
         fi
 
         ## If branch is empty, assign to it the default branch.
