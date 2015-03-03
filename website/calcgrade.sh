@@ -13,6 +13,8 @@ fi
 
 source "$scriptdir/config.sh"
 
+#echo "\$scriptdir is $scriptdir"
+
 ########################################
 # check for valid command line params
 
@@ -22,8 +24,8 @@ if [ -z $1 ]; then
 else
     user=$(simplifycsaccount "$1")
 fi
-echo "user=$user"
-echo "\$1=$1"
+echo "user=$user" >&2
+echo "\$1=$1" >&2
 
 #######################################
 # check if instructor keys are installed
@@ -33,7 +35,20 @@ installInstructorKeys
 #######################################
 # calculate stats
 
-echo "finding grade for $(getStudentInfo $user name) ($user)"
+studentname=$(getStudentInfo $user name)
+
+if [ -z $studentname ]; then
+    echo "<h2>Grades</h2>"
+    echo "<p>$red Invalid user name.$endcolor</p>"
+    echo "<form action=\"grades\" method=\"GET\">"
+    echo "Please enter a valid cs account:<br>"
+    echo "<input type=\"text\" name=\"user\"><br>"
+    echo "<input type=\"submit\" value=\"Enter\">"
+    echo "</form>"
+    exit
+fi
+
+echo "<h2>Grade for $studentname ($user)</h2>"
 downloadGrades "$user"
 
 totalgrade=$(totalGrade "$user")
@@ -46,13 +61,13 @@ percent=`bc <<< "scale=2; 100 * $totalgrade/$totaloutof"`
 #######################################
 # display everything
 
-echo
-echo "==============================================================================="
-echo "    grade        |  assignment                     |  grader"
-echo "==============================================================================="
+echo "<br>"
+echo "<table>"
+echo "<tr><th>Grade</th><th>Assignment</th><th>Grader</th></tr>"
 
 cd "$tmpdir/$classname-$user"
 for f in `find . -name grade | sort`; do
+    echo "<tr>"
     dir=`dirname $f`
     assn=$(pad "$(basename $dir)" 30)
     grader=$(git log -n 1 --pretty=format:"%aN" "$f")
@@ -67,11 +82,13 @@ for f in `find . -name grade | sort`; do
     if [ ! $grade = "---" ]; then
         cmd="scale=2; 100*$grade/$outof"
         assnPercent=$(bc <<< "$cmd" 2> /dev/null)
+        echo "<td>"
         colorPercent "$assnPercent"
-        printf "    %3s / %3s    " "$grade" "$outof"
-        printf "$endcolor|"
+        printf "%3s / %3s" "$grade" "$outof"
+        printf "$endcolor</td>"
+        echo "<td>"
         colorPercent "$assnPercent"
-        printf "  $assn$endcolor |  $grader "
+        printf "$assn$endcolor</td><td>$grader "
         if [ "$signature" = "G" ]; then
             printf "$green[signed]$endcolor"
         else
@@ -81,24 +98,27 @@ for f in `find . -name grade | sort`; do
                 printf "$red[bad signature]$endcolor"
             fi
         fi
-        echo
+        echo "</td>"
     else
-        printf "    %3s / %3s    " "$grade" "$outof"
-        printf "|  $assn |  ---\n"
+        printf "<td>%3s / %3s</td>" "$grade" "$outof"
+        printf "<td>$assn</td><td>---</td>"
     fi
+    echo "</tr>"
 done
 
-echo "==============================================================================="
-echo
+echo "</table>"
+echo "<br>"
 
-printf "running total = %4s / %4s = " $totalgrade $runningtotaloutof
+echo "<table>"
+echo "<tr>"
+printf "<td>running total</td><td> = </td><td>%4s</td><td>/</td><td>%4s</td><td>=</td><td>" $totalgrade $runningtotaloutof
 dispPercent "$runningpercent"
-printf "  "
+printf "</td><td>"
 percentToLetter "$runningpercent"
-echo
-printf "overall total = %4s / %4s = " $totalgrade $totaloutof
+echo "</td></tr><tr>"
+printf "<td>overall total</td><td> = </td><td>%4s</td><td>/</td><td>%4s</td><td>=</td><td>" $totalgrade $totaloutof
 dispPercent "$percent"
-printf "  "
+printf "</td><td>"
 percentToLetter "$percent"
-echo
-echo
+echo "</td></tr>"
+echo "</table>"
