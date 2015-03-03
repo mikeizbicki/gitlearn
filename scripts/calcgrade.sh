@@ -5,7 +5,12 @@
 # grades associated with the account
 #
 
-scriptdir=`dirname "$0"`
+if [ -z "$GITLEARN_CLASSDIR" ]; then
+    scriptdir=`dirname "$0"`
+else
+    scriptdir="$GITLEARN_CLASSDIR/gitlearn/scripts"
+fi
+
 source "$scriptdir/config.sh"
 
 ########################################
