@@ -15,12 +15,12 @@ MY TAKE:
 
 This tool has been passed on among people until it got to my hands.
 I had to learn it by reading the documentation provided on the moss
-script, but it may take some time, so before I leave I wanted to 
+script, but it may take some time, so before I leave, I wanted to 
 pass on the little knowledge I have to those who may use this tool
 in trying to perform their TA duties.
 
 The installation of this script is relatively simple, the hardest
-part is interpreting the results that you will obtain form the 
+part is interpreting the results that you will obtain from the 
 server that you connect to when you run the script.
 
 Although you may not understand this right now, I would like to 
@@ -30,18 +30,18 @@ finds similarities in the code checked, but it is still a machine,
 and does not have the human intuition that we have.
 
 
-QUICK INSTALATION
+QUICK INSTALLATION
 
 All you have to do is copy the 'moss' script onto your home bin 
-directory: '~/bin' so you may invoke anywhere on the system. Also,
+directory: '~/bin' so you may invoke it anywhere on the system. Also,
 do not forget to change the permissions of this file; add excecutable
 permissions on the owner: 'chmod u+x ~/bin/moss'
 
-You may of course follow the instruction provided on the official
+You may of course follow the instructions provided on the official
 web site and download your own copy. If you do this, you will get a 
-series of email that register you to the system and assigns you a
-'userid'. For some reason, I and my predecesors failed to register
-and unfortunately spent hours of pain and suffering. The script
+series of emails that registers you to the system and assigns you a
+'userid'. For some reason, my predecessors and I failed to register
+and, unfortunately, spent hours of pain and suffering. The script
 provided here uses some person's userid that still works, so I suggest 
 you go the easy way and use the provided script, unless you want to 
 go the legit way (oh my god! the irony!).
@@ -95,18 +95,18 @@ overdoing the inspection: remember that you once were a student and you
 worked with your pals without the intention of cheating (really! that 
 thought never crossed my mind).
 
-So you will get, among other stuff, two collumns with two files being 
+So you will get, among other stuff, two columns with two files being 
 compared against each other. You will also notice a percentage number next 
-to their name and a third collumn with the number of matched lines.
-Fortunately the comparisons are sorted in decreesing order of matched 
-lines, with will give you a higher indication of cheating issues. If you click
-on a line you will be taken to another page that shows you the code
+to their name and a third column with the number of matched lines.
+Fortunately, the comparisons are sorted in decreasing order of matched 
+lines, which will give you a higher indication of cheating issues. If you click
+on a line, you will be taken to another page that shows you the code
 compared side by side.
 
 At this point it is all up to you. I have seen many people being too evil 
 catching people like ants in my yard or too benevolent (or lazy). I guess I 
 am of those who are a little lazy but by now I can smell cheaters in a mile 
-radius. So I advice the same again: use moss as a tool, not as proof of 
+radius. So I advise the same again: use moss as a tool, not as proof of 
 cheating.
 
 Have fun catching the outlaws!
