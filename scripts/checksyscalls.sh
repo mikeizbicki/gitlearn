@@ -66,6 +66,7 @@ syscalls="
     execvl
     execvp
     fork
+    fflush
     wait
     waitpid
     ioctl
