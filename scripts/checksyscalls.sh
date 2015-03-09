@@ -95,6 +95,7 @@ syscalls="
     kill
     access
     system
+    raise
     "
 
 # construct the args variable
