@@ -1,0 +1,150 @@
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+    background-color: #F1AB00;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+body {
+    background-color: #2D6CC0;
+    text-align: center;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+table {
+    background-color: #ded7c8;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+td, th {
+    padding: 5px;
+}
+
+th {
+    background-color: #F1AB00;
+}
+
+td.grade {
+    border-style: none;
+}
+
+a {
+    color: #F1AB00;
+    padding: 2px;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a.redlink {
+    color: #C20000;
+    text-decoration: none;
+}
+
+a.redlink:hover {
+    text-decoration: underline;
+}
+
+a.greenlink {
+    color: #006400;
+    text-decoration: none;
+}
+
+a.greenlink:hover {
+    text-decoration: underline;
+}
+
+a.cynlink {
+    color: #0081A1;
+    text-decoration: none;
+}
+
+a.cynlink:hover {
+    text-decoration: underline;
+}
+
+a.yellowlink {
+    color: #BB8900;
+    text-decoration: none;
+}
+
+a.yellowlink:hover {
+    text-decoration: underline;
+}
+
+a.blacklink {
+    color: #000000;
+    text-decoration: none;
+}
+
+a.blacklink:hover {
+    text-decoration: underline;
+}
+
+p {
+    color: #f1ab00;
+}
+
+.gradeform {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 400px;
+    background: #F1AB00;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.gradeform input[type="text"] {
+    border: 1px solid black;
+    background-color: #DED7C8;
+    color: black;
+    height: 25px;
+    margin-bottom: 5px;
+    margin-right: 6px;
+    margin-top: 5px;
+    outline: 0 none;
+    padding: 3px 5px 3px 5px;
+    width: 70%;
+    font-size: 12px;
+    line-height:15px;
+}
+
+.gradeform input[type="password"]{
+    border: 1px solid black;
+    background-color: #DED7C8;
+    color: black;
+    height: 25px;
+    margin-bottom: 5px;
+    margin-right: 6px;
+    margin-top: 5px;
+    outline: 0 none;
+    padding: 3px 5px 3px 5px;
+    width: 70%;
+    font-size: 12px;
+    line-height:15px;
+}
+
+.gradeform .button {
+    padding: 5px 8px 5px 8px;
+    background: #DED7C8;
+    border: 1px solid black;
+    color: black;
+    font-size: 12px;
+}
+
+.gradeform .button:hover {
+    background: #2D6CC0;
+}
+
+.error {
+    color: #C20000;
+    background: white;
+}
