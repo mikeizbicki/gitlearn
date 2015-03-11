@@ -85,6 +85,7 @@ syscalls="
     dup2
     dup
     chdir
+    fchdir
     getcwd
     getwd
     get_current_dir_name
