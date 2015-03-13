@@ -35,7 +35,20 @@ installInstructorKeys
 #######################################
 # calculate stats
 
-echo "<h2>Grade for $(getStudentInfo $user name) ($user)</h2>"
+studentname=$(getStudentInfo $user name)
+
+if [ -z $studentname ]; then
+    echo "<h2>Grades</h2>"
+    echo "<p>$red Invalid user name.$endcolor</p>"
+    echo "<form action=\"grades\" method=\"GET\">"
+    echo "Please enter a valid cs account:<br>"
+    echo "<input type=\"text\" name=\"user\"><br>"
+    echo "<input type=\"submit\" value=\"Enter\">"
+    echo "</form>"
+    exit
+fi
+
+echo "<h2>Grade for $studentname ($user)</h2>"
 downloadGrades "$user"
 
 totalgrade=$(totalGrade "$user")

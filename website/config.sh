@@ -116,7 +116,7 @@ function getStudentInfo {
     # FIXME: this matches any attribute that contains $2 rather than equals $2
     ret=$(awk -F "=" "/^$2/ {print \$2}" "$studentinfo/$csaccount" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     if [ -z "$ret" ]; then
-        error "student $csaccount does not have attribute $2 in their studentinfo file"
+        echo "student $csaccount does not have attribute $2 in their studentinfo file" >&2
     fi
     echo "$ret"
 }
