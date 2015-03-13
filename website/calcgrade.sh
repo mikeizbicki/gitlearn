@@ -24,8 +24,8 @@ if [ -z $1 ]; then
 else
     user=$(simplifycsaccount "$1")
 fi
-echo "user=$user"
-echo "\$1=$1"
+echo "user=$user" >&2
+echo "\$1=$1" >&2
 
 #######################################
 # check if instructor keys are installed
@@ -35,7 +35,7 @@ installInstructorKeys
 #######################################
 # calculate stats
 
-echo "finding grade for $(getStudentInfo $user name) ($user)"
+echo "<h2>Grade for $(getStudentInfo $user name) ($user)</h2>"
 downloadGrades "$user"
 
 totalgrade=$(totalGrade "$user")
@@ -48,13 +48,13 @@ percent=`bc <<< "scale=2; 100 * $totalgrade/$totaloutof"`
 #######################################
 # display everything
 
-echo
-echo "==============================================================================="
-echo "    grade        |  assignment                     |  grader"
-echo "==============================================================================="
+echo "<br>"
+echo "<table>"
+echo "<tr><th>Grade</th><th>Assignment</th><th>Grader</th></tr>"
 
 cd "$tmpdir/$classname-$user"
 for f in `find . -name grade | sort`; do
+    echo "<tr>"
     dir=`dirname $f`
     assn=$(pad "$(basename $dir)" 30)
     grader=$(git log -n 1 --pretty=format:"%aN" "$f")
@@ -69,33 +69,32 @@ for f in `find . -name grade | sort`; do
     if [ ! $grade = "---" ]; then
         cmd="scale=2; 100*$grade/$outof"
         assnPercent=$(bc <<< "$cmd" 2> /dev/null)
-        #colorPercent "$assnPercent"
-        printf "    %3s / %3s    " "$grade" "$outof"
-        #printf "$endcolor|"
-        printf "|"
-        #colorPercent "$assnPercent"
-        #printf "  $assn$endcolor |  $grader "
-        printf "  $assn |  $grader "
+        echo "<td>"
+        colorPercent "$assnPercent"
+        printf "%3s / %3s" "$grade" "$outof"
+        printf "$endcolor</td>"
+        echo "<td>"
+        colorPercent "$assnPercent"
+        printf "$assn$endcolor</td><td>$grader "
         if [ "$signature" = "G" ]; then
-            #printf "$green[signed]$endcolor"
-            printf "[signed]"
+            printf "$green[signed]$endcolor"
         else
             if [ "$signature" = "U" ]; then
-                #printf "$cyn[signed but untrusted]$endcolor"
-                printf "[signed but untrusted]"
+                printf "$cyn[signed but untrusted]$endcolor"
             else
-                printf "[bad signature]"
+                printf "$red[bad signature]$endcolor"
             fi
         fi
-        echo
+        echo "</td>"
     else
-        printf "    %3s / %3s    " "$grade" "$outof"
-        printf "|  $assn |  ---\n"
+        printf "<td>%3s / %3s</td>" "$grade" "$outof"
+        printf "<td>$assn</td><td>---</td>"
     fi
+    echo "</tr>"
 done
 
-echo "==============================================================================="
-echo
+echo "</table>"
+echo "<br>"
 
 printf "running total = %4s / %4s = " $totalgrade $runningtotaloutof
 dispPercent "$runningpercent"

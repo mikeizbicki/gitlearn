@@ -1,13 +1,18 @@
 #!/bin/bash
 
+echo "<!DOCTYPE html>"
+echo "<html>"
+
 if [ -z "$user" ]
-    echo "<!DOCTYPE html>"
-    echo "<html>"
+then
+    echo "<h2>Grades</h2>"
     echo "<form action=\"grades\" method=\"GET\">"
     echo "Enter your cs account:<br>"
-    echo "<input type=\"text\" name=\"user\">"
+    echo "<input type=\"text\" name=\"user\"><br>"
+    echo "<input type=\"submit\" value=\"Enter\">"
     echo "</form>"
-    echo "</html>"
 else
-    echo $(./calcgrade.sh $user)
+    echo $(./website/calcgrade.sh $user)
 fi
+
+echo "</html>"

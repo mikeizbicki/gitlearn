@@ -36,7 +36,7 @@ if [ -z "$GITLEARN_CLASSDIR" ]; then
     # verify that we are currently in a local gitlearn directory
     # FIXME: make this a separate function and more robust
     if [ ! -d "assignments" ] || [ ! -d "people" ]; then
-        echo "error: this does not appear to be a valid gitlearn directory"
+        echo "error: this does not appear to be a valid gitlearn directory" >&2
     fi
 
 # otherwise, run in installed folder
@@ -78,13 +78,13 @@ function padPercent {
 
 ##########################################
 #colors
-red="\x1b[31m"
-green="\x1b[32m"
-yellow="\x1b[33m"
-blue="\x1b[34m"
-mag="\x1b[35m"
-cyn="\x1b[36m"
-endcolor="\x1b[0m"
+red="<FONT COLOR=\"FF0000\">"
+green="<FONT COLOR=\"00FF00\">"
+yellow="<FONT COLOR=\"FFFF00\">"
+blue="<FONT COLOR=\"0000FF\">"
+mag="<FONT COLOR=\"FF00FF\">"
+cyn="<FONT COLOR=\"00FFFF\">"
+endcolor="</FONT>"
 
 function error {
     echo -e "$red ERROR: $@$endcolor" >&2
@@ -206,7 +206,7 @@ function downloadRepo {
 
     # download repo
     if [ ! -d "$clonedir" ]; then
-        echo "  running git clone on [$giturl]"
+        echo "  running git clone on [$giturl]" >&2
 	    git clone --quiet "$giturl" "$clonedir"
 	    cd "$clonedir"
 
@@ -228,7 +228,7 @@ function downloadRepo {
             fi
         fi
     else
-        echo "  running git pull in [$clonedir]"
+        echo "  running git pull in [$clonedir]" >&2
         cd "$clonedir"
         git fetch --all --quiet > /dev/null 2> /dev/null
 
@@ -443,15 +443,15 @@ function resetColor {
 # $1 = percent
 function dispPercent {
     local per="$1"
-    #colorPercent "$per"
+    colorPercent "$per"
     printf "$(padPercent $per)"
-    #resetColor
+    resetColor
 }
 
 # $1 = percent
 function percentToLetter {
     per="$1"
-    #colorPercent "$1"
+    colorPercent "$1"
     if ((`bc <<< "$per>=97"`)); then
         printf "A+"
     elif ((`bc <<< "$per>=93"`)); then
@@ -479,7 +479,7 @@ function percentToLetter {
     else
         printf "F "
     fi
-    #resetColor
+    resetColor
 }
 
 ##################################
