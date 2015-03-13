@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -z "$user" ]
+    echo "<!DOCTYPE html>"
+    echo "<html>"
+    echo "<form action=\"grades\" method=\"GET\">"
+    echo "Enter your cs account:<br>"
+    echo "<input type=\"text\" name=\"user\">"
+    echo "</form>"
+    echo "</html>"
+else
+    echo $(./calcgrade.sh $user)
+fi
