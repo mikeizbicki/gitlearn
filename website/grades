@@ -21,6 +21,9 @@ else
     echo $(./website/calcgrade.sh $user)
 fi
 
+echo "<br><br>"
+echo "<a href=\"..\">Home</a>"
+
 echo "</body>"
 
 echo "</html>"
