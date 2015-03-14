@@ -3,6 +3,12 @@
 echo "<!DOCTYPE html>"
 echo "<html>"
 
+echo "<head>"
+echo "<title>Grades</title>"
+echo "</head>"
+
+echo "<body>"
+
 if [ -z "$user" ]
 then
     echo "<h2>Grades</h2>"
@@ -14,5 +20,7 @@ then
 else
     echo $(./website/calcgrade.sh $user)
 fi
+
+echo "</body>"
 
 echo "</html>"

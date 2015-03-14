@@ -109,14 +109,16 @@ done
 echo "</table>"
 echo "<br>"
 
-printf "running total = %4s / %4s = " $totalgrade $runningtotaloutof
+echo "<table>"
+echo "<tr>"
+printf "<td>running total</td><td> = </td><td>%4s</td><td>/</td><td>%4s</td><td>=</td><td>" $totalgrade $runningtotaloutof
 dispPercent "$runningpercent"
-printf "  "
+printf "</td><td>"
 percentToLetter "$runningpercent"
-echo
-printf "overall total = %4s / %4s = " $totalgrade $totaloutof
+echo "</td></tr><tr>"
+printf "<td>overall total</td><td> = </td><td>%4s</td><td>/</td><td>%4s</td><td>=</td><td>" $totalgrade $totaloutof
 dispPercent "$percent"
-printf "  "
+printf "</td><td>"
 percentToLetter "$percent"
-echo
-echo
+echo "</td></tr>"
+echo "</table>"
