@@ -78,12 +78,12 @@ function padPercent {
 
 ##########################################
 #colors
-red="<FONT COLOR=\"FF0000\">"
-green="<FONT COLOR=\"00FF00\">"
-yellow="<FONT COLOR=\"FFFF00\">"
+red="<FONT COLOR=\"C20000\">"
+green="<FONT COLOR=\"006400\">"
+yellow="<FONT COLOR=\"BB8900\">"
 blue="<FONT COLOR=\"0000FF\">"
 mag="<FONT COLOR=\"FF00FF\">"
-cyn="<FONT COLOR=\"00FFFF\">"
+cyn="<FONT COLOR=\"0081A1\">"
 endcolor="</FONT>"
 
 function error {

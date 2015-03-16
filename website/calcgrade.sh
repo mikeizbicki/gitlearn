@@ -39,11 +39,11 @@ studentname=$(getStudentInfo $user name)
 
 if [ -z $studentname ]; then
     echo "<h2>Grades</h2>"
-    echo "<p>$red Invalid user name.$endcolor</p>"
-    echo "<form action=\"grades\" method=\"GET\">"
+    echo "<p class=\"error\"><b>Invalid user name.</b></p>"
+    echo "<form action=\"grades\" method=\"GET\" class=\"gradeform\">"
     echo "Please enter a valid cs account:<br>"
     echo "<input type=\"text\" name=\"user\"><br>"
-    echo "<input type=\"submit\" value=\"Enter\">"
+    echo "<input type=\"submit\" value=\"Enter\" class=\"button\">"
     echo "</form>"
     exit
 fi
@@ -62,7 +62,7 @@ percent=`bc <<< "scale=2; 100 * $totalgrade/$totaloutof"`
 # display everything
 
 echo "<br>"
-echo "<table>"
+echo "<table id=\"grade\">"
 echo "<tr><th>Grade</th><th>Assignment</th><th>Grader</th></tr>"
 
 cd "$tmpdir/$classname-$user"
@@ -111,14 +111,14 @@ echo "<br>"
 
 echo "<table>"
 echo "<tr>"
-printf "<td>running total</td><td> = </td><td>%4s</td><td>/</td><td>%4s</td><td>=</td><td>" $totalgrade $runningtotaloutof
+printf "<td class=\"grade\">running total</td><td class=\"grade\"> = </td><td class=\"grade\">%4s</td><td class=\"grade\">/</td><td class=\"grade\">%4s</td><td class=\"grade\">=</td><td class=\"grade\">" $totalgrade $runningtotaloutof
 dispPercent "$runningpercent"
-printf "</td><td>"
+printf "</td><td class=\"grade\">"
 percentToLetter "$runningpercent"
 echo "</td></tr><tr>"
-printf "<td>overall total</td><td> = </td><td>%4s</td><td>/</td><td>%4s</td><td>=</td><td>" $totalgrade $totaloutof
+printf "<td class=\"grade\">overall total</td><td class=\"grade\"> = </td><td class=\"grade\">%4s</td><td class=\"grade\">/</td><td class=\"grade\">%4s</td><td class=\"grade\">=</td><td class=\"grade\">" $totalgrade $totaloutof
 dispPercent "$percent"
-printf "</td><td>"
+printf "</td><td class=\"grade\">"
 percentToLetter "$percent"
 echo "</td></tr>"
 echo "</table>"

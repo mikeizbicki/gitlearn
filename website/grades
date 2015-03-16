@@ -4,6 +4,7 @@ echo "<!DOCTYPE html>"
 echo "<html>"
 
 echo "<head>"
+echo "<link type=\"text/css\" rel=\"stylesheet\" href=\"stylesheet.css\" >"
 echo "<title>Grades</title>"
 echo "</head>"
 
@@ -12,10 +13,10 @@ echo "<body>"
 if [ -z "$user" ]
 then
     echo "<h2>Grades</h2>"
-    echo "<form action=\"grades\" method=\"GET\">"
+    echo "<form action=\"grades\" method=\"GET\" class=\"gradeform\">"
     echo "Enter your cs account:<br>"
     echo "<input type=\"text\" name=\"user\"><br>"
-    echo "<input type=\"submit\" value=\"Enter\">"
+    echo "<input type=\"submit\" value=\"Enter\" class=\"button\">"
     echo "</form>"
 else
     echo $(./website/calcgrade.sh $user)
