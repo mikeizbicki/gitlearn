@@ -59,12 +59,12 @@ Reddit
 Student grade vs. comment karma
 
 
-![](http://i.imgur.com/S1gv6T1.png)
+![](http://i.imgur.com/4LQvYqA.png)
 
 Student grade vs. link karma
 
 
-![](http://i.imgur.com/h3IbAm1.png)
+![](http://i.imgur.com/z9O0wqT.png)
 
 Student grade vs. Student grade vs. their username is some combination of letters then numbers (eg. dimitri001) (1 means yes, 0 means no)
 
