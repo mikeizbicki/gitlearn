@@ -15,7 +15,7 @@ Github
 Student grade vs.  # of repositories tied to their account
 
 
-![](http://i.imgur.com/nKQfLdr.png)
+![](http://i.imgur.com/Uudb5iq.png)
 
 
 Student grade vs. # of repositories tied to their account that are forks
