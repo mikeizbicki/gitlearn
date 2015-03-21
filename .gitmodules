@@ -1,0 +1,3 @@
+[submodule "rapache"]
+	path = rapache
+	url = https://github.com/mikeizbicki/rapache.git
