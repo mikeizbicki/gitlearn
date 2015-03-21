@@ -49,9 +49,14 @@ echo "<br>"
 echo "<table id=\"grade\">"
 echo "<tr><th>Grade</th><th>Assignment</th><th>Grader</th></tr>"
 
+giturl=$(getStudentInfo $user giturl | sed -e 's/\.git$//')
+
 cd "$tmpdir/$classname-$user"
 for f in `find . -name grade | sort`; do
-    #echo `cut -d'.' -f2 <<< "$f"` >&2
+    githubgradeloc=$(cut -d'.' -f2 <<< "$f")
+    githubassignloc=$(echo $githubgradeloc | sed -e 's/\/grade$//' )
+    githubgradeloc=$giturl/blob/$gradesbranch$githubgradeloc
+    githubassignloc=$giturl/tree/$gradesbranch$githubassignloc
     echo "<tr>"
     dir=`dirname $f`
     assn=$(pad "$(basename $dir)" 30)
@@ -67,13 +72,13 @@ for f in `find . -name grade | sort`; do
     if [ ! $grade = "---" ]; then
         cmd="scale=2; 100*$grade/$outof"
         assnPercent=$(bc <<< "$cmd" 2> /dev/null)
-        echo "<td>"
-        colorPercent "$assnPercent"
+        linkcolor=$(colorPercentLink "$assnPercent")
+        echo "<td><a href=\"$githubgradeloc\" class=\"$linkcolor\">"
         printf "%3s / %3s" "$grade" "$outof"
-        printf "$endcolor</td>"
-        echo "<td>"
-        colorPercent "$assnPercent"
-        printf "$assn$endcolor</td><td>$grader "
+        printf "</a></td>"
+        linkcolor=$(colorPercentLink "$assnPercent")
+        echo "<td><a href=\"$githubassignloc\" class=\"$linkcolor\">"
+        printf "$assn</a></td><td>$grader "
         if [ "$signature" = "G" ]; then
             printf "$green[signed]$endcolor"
         else
@@ -85,8 +90,10 @@ for f in `find . -name grade | sort`; do
         fi
         echo "</td>"
     else
-        printf "<td>%3s / %3s</td>" "$grade" "$outof"
-        printf "<td>$assn</td><td>---</td>"
+        printf "<td><a href=\"$githubgradeloc\" class=\"blacklink\">"
+        printf "%3s / %3s</a></td>" "$grade" "$outof"
+        printf "<td><a href=\"$githubassignloc\" class=\"blacklink\">$assn</a></td>"
+        printf "<td>---</td>"
     fi
     echo "</tr>"
 done

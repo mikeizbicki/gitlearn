@@ -44,6 +44,51 @@ a:hover {
     text-decoration: underline;
 }
 
+a.redlink {
+    color: #C20000;
+    text-decoration: none;
+}
+
+a.redlink:hover {
+    text-decoration: underline;
+}
+
+a.greenlink {
+    color: #006400;
+    text-decoration: none;
+}
+
+a.greenlink:hover {
+    text-decoration: underline;
+}
+
+a.cynlink {
+    color: #0081A1;
+    text-decoration: none;
+}
+
+a.cynlink:hover {
+    text-decoration: underline;
+}
+
+a.yellowlink {
+    color: #BB8900;
+    text-decoration: none;
+}
+
+a.yellowlink:hover {
+    text-decoration: underline;
+}
+
+a.blacklink {
+    color: #000000;
+    text-decoration: none;
+}
+
+a.blacklink:hover {
+    text-decoration: underline;
+}
+
 p {
     color: #f1ab00;
 }
