@@ -69,7 +69,7 @@ Student grade vs. link karma
 Student grade vs. Student grade vs. their username is some combination of letters then numbers (eg. dimitri001) (1 means yes, 0 means no)
 
 
-![](http://i.imgur.com/1aKnNTw.png)
+![](http://i.imgur.com/ZTmWM5P.png)
 
 
 You can look at more of the examples [here](http://imgur.com/a/KOzDP#0). 
