@@ -27,10 +27,9 @@ send "$password\r"
 expect {
     timeout { send_user "incorrect"; exit 1}
     "^su:*" { send_user "incorrect"; exit 1}
-    "*\$*"
+    "*\$*" { send_user "correct" }
 }
 
-send_user "correct"
 send "exit\r"
 
 close

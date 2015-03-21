@@ -5,25 +5,14 @@
 # grades associated with the account
 #
 
-if [ -z "$GITLEARN_CLASSDIR" ]; then
-    scriptdir=`dirname "$0"`
-else
-    scriptdir="$GITLEARN_CLASSDIR/gitlearn/scripts"
-fi
-
-source "$scriptdir/config.sh"
-
-#echo "\$scriptdir is $scriptdir"
+source "$webroot/config.sh"
 
 ########################################
 # check for valid command line params
 
 
-if [ -z $1 ]; then
-    user="$USER"
-else
-    user=$(simplifycsaccount "$1")
-fi
+user=$(simplifycsaccount "$1")
+
 echo "user=$user" >&2
 echo "\$1=$1" >&2
 
