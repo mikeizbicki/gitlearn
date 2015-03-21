@@ -78,12 +78,12 @@ function padPercent {
 
 ##########################################
 #colors
-red="<FONT COLOR=\"FF0000\">"
-green="<FONT COLOR=\"00FF00\">"
-yellow="<FONT COLOR=\"FFFF00\">"
+red="<FONT COLOR=\"C20000\">"
+green="<FONT COLOR=\"006400\">"
+yellow="<FONT COLOR=\"BB8900\">"
 blue="<FONT COLOR=\"0000FF\">"
 mag="<FONT COLOR=\"FF00FF\">"
-cyn="<FONT COLOR=\"00FFFF\">"
+cyn="<FONT COLOR=\"0081A1\">"
 endcolor="</FONT>"
 
 function error {
@@ -433,6 +433,22 @@ function colorPercent {
         printf "$yellow"
     else
         printf "$red"
+    fi
+}
+
+# $1 = percent
+function colorPercentLink {
+    local per="$1"
+    if [[ -z $1 ]]; then
+        printf "blacklink"
+    elif ((`bc <<< "$per>=90"`)); then
+        printf "greenlink"
+    elif ((`bc <<< "$per>=80"`)); then
+        printf "cynlink"
+    elif ((`bc <<< "$per>=70"`)); then
+        printf "yellowlink"
+    else
+        printf "redlink"
     fi
 }
 

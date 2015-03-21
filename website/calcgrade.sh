@@ -5,25 +5,14 @@
 # grades associated with the account
 #
 
-if [ -z "$GITLEARN_CLASSDIR" ]; then
-    scriptdir=`dirname "$0"`
-else
-    scriptdir="$GITLEARN_CLASSDIR/gitlearn/scripts"
-fi
-
-source "$scriptdir/config.sh"
-
-#echo "\$scriptdir is $scriptdir"
+source "$webroot/config.sh"
 
 ########################################
 # check for valid command line params
 
 
-if [ -z $1 ]; then
-    user="$USER"
-else
-    user=$(simplifycsaccount "$1")
-fi
+user=$(simplifycsaccount "$1")
+
 echo "user=$user" >&2
 echo "\$1=$1" >&2
 
@@ -39,12 +28,7 @@ studentname=$(getStudentInfo $user name)
 
 if [ -z $studentname ]; then
     echo "<h2>Grades</h2>"
-    echo "<p>$red Invalid user name.$endcolor</p>"
-    echo "<form action=\"grades\" method=\"GET\">"
-    echo "Please enter a valid cs account:<br>"
-    echo "<input type=\"text\" name=\"user\"><br>"
-    echo "<input type=\"submit\" value=\"Enter\">"
-    echo "</form>"
+    echo "<p class=\"error\"><b>You are not enrolled in this class. Please follow the instructions in lab0 to enroll.</b></p>"
     exit
 fi
 
@@ -62,11 +46,17 @@ percent=`bc <<< "scale=2; 100 * $totalgrade/$totaloutof"`
 # display everything
 
 echo "<br>"
-echo "<table>"
+echo "<table id=\"grade\">"
 echo "<tr><th>Grade</th><th>Assignment</th><th>Grader</th></tr>"
+
+giturl=$(getStudentInfo $user giturl | sed -e 's/\.git$//')
 
 cd "$tmpdir/$classname-$user"
 for f in `find . -name grade | sort`; do
+    githubgradeloc=$(cut -d'.' -f2 <<< "$f")
+    githubassignloc=$(echo $githubgradeloc | sed -e 's/\/grade$//' )
+    githubgradeloc=$giturl/blob/$gradesbranch$githubgradeloc
+    githubassignloc=$giturl/tree/$gradesbranch$githubassignloc
     echo "<tr>"
     dir=`dirname $f`
     assn=$(pad "$(basename $dir)" 30)
@@ -82,13 +72,13 @@ for f in `find . -name grade | sort`; do
     if [ ! $grade = "---" ]; then
         cmd="scale=2; 100*$grade/$outof"
         assnPercent=$(bc <<< "$cmd" 2> /dev/null)
-        echo "<td>"
-        colorPercent "$assnPercent"
+        linkcolor=$(colorPercentLink "$assnPercent")
+        echo "<td><a href=\"$githubgradeloc\" class=\"$linkcolor\">"
         printf "%3s / %3s" "$grade" "$outof"
-        printf "$endcolor</td>"
-        echo "<td>"
-        colorPercent "$assnPercent"
-        printf "$assn$endcolor</td><td>$grader "
+        printf "</a></td>"
+        linkcolor=$(colorPercentLink "$assnPercent")
+        echo "<td><a href=\"$githubassignloc\" class=\"$linkcolor\">"
+        printf "$assn</a></td><td>$grader "
         if [ "$signature" = "G" ]; then
             printf "$green[signed]$endcolor"
         else
@@ -100,8 +90,10 @@ for f in `find . -name grade | sort`; do
         fi
         echo "</td>"
     else
-        printf "<td>%3s / %3s</td>" "$grade" "$outof"
-        printf "<td>$assn</td><td>---</td>"
+        printf "<td><a href=\"$githubgradeloc\" class=\"blacklink\">"
+        printf "%3s / %3s</a></td>" "$grade" "$outof"
+        printf "<td><a href=\"$githubassignloc\" class=\"blacklink\">$assn</a></td>"
+        printf "<td>---</td>"
     fi
     echo "</tr>"
 done
@@ -111,14 +103,14 @@ echo "<br>"
 
 echo "<table>"
 echo "<tr>"
-printf "<td>running total</td><td> = </td><td>%4s</td><td>/</td><td>%4s</td><td>=</td><td>" $totalgrade $runningtotaloutof
+printf "<td class=\"grade\">running total</td><td class=\"grade\"> = </td><td class=\"grade\">%4s</td><td class=\"grade\">/</td><td class=\"grade\">%4s</td><td class=\"grade\">=</td><td class=\"grade\">" $totalgrade $runningtotaloutof
 dispPercent "$runningpercent"
-printf "</td><td>"
+printf "</td><td class=\"grade\">"
 percentToLetter "$runningpercent"
 echo "</td></tr><tr>"
-printf "<td>overall total</td><td> = </td><td>%4s</td><td>/</td><td>%4s</td><td>=</td><td>" $totalgrade $totaloutof
+printf "<td class=\"grade\">overall total</td><td class=\"grade\"> = </td><td class=\"grade\">%4s</td><td class=\"grade\">/</td><td class=\"grade\">%4s</td><td class=\"grade\">=</td><td class=\"grade\">" $totalgrade $totaloutof
 dispPercent "$percent"
-printf "</td><td>"
+printf "</td><td class=\"grade\">"
 percentToLetter "$percent"
 echo "</td></tr>"
 echo "</table>"

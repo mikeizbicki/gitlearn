@@ -3,18 +3,32 @@
 <html>
 
 <head>
+<link type="text/css" rel="stylesheet" href="stylesheet.css">
 <title>UCR CS100</title>
 </head>
 
 <body>
 <h1>UCR CS100 Class Portal</h1>
-<p>Welcome to the class page for CS100!</p>
-<p>Click on any of the helpful links below.</p>
+<p><b>Welcome to the class page for CS100!</b></p>
 
-<ul style="list-style-type:none">
-  <li><a href="grades">Grades</a></li>
-  <li><a href="https://github.com/mikeizbicki/ucr-cs100/">Class GitHub page</a></li>
-</ul>
+<form action="grades" method="POST" class="gradeform">
+Sign into your cs account to view your grades.<br><br>
+Username:<br>
+<input type="text" name="user"><br>
+Password:<br>
+<input type="password" name="password"><br>
+<input type="submit" class="button" value="Enter"><br>
+</form>
+
+<br>
+
+<p><b>Helpful Links:</b></p>
+
+<a href="https://github.com/mikeizbicki/ucr-cs100/">Class GitHub page</a><br>
+<a href="http://www.stackoverflow.com/">Stackoverflow</a><br>
+<a href="http://www.reddit.com/r/programming">Programming on Reddit</a><br>
+<a href="http://slashdot.org/">Slashdot: News for Nerds</a><br>
+<a href="http://news.ycombinator.com/">Hacker News at Y Combinator</a><br>
 
 </body>
 
