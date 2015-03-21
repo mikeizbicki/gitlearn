@@ -1,0 +1,36 @@
+#!/usr/bin/expect
+
+# usage: ./authuser.exp username password
+
+# script checks to see if credentials are correct
+# returns "correct" if username and password are authenticated
+# returns "incorrect" if not authenticated
+# returns "failure" if su command fails
+# return values are sent to stdout
+
+log_user 0
+
+set user [lindex $argv 0]
+set password [lindex $argv 1]
+set timeout 2
+
+spawn /bin/su $user
+
+expect {
+   timeout { send_user "incorrect"; exit 1 }
+   eof { send_user "incorrect"; exit 1 }
+   "*assword:"
+}
+
+send "$password\r"
+
+expect {
+    timeout { send_user "incorrect"; exit 1}
+    "^su:*" { send_user "incorrect"; exit 1}
+    "*\$*"
+}
+
+send_user "correct"
+send "exit\r"
+
+close

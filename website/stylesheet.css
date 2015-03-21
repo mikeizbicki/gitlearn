@@ -72,6 +72,21 @@ p {
     line-height:15px;
 }
 
+.gradeform input[type="password"]{
+    border: 1px solid black;
+    background-color: #DED7C8;
+    color: black;
+    height: 25px;
+    margin-bottom: 5px;
+    margin-right: 6px;
+    margin-top: 5px;
+    outline: 0 none;
+    padding: 3px 5px 3px 5px;
+    width: 70%;
+    font-size: 12px;
+    line-height:15px;
+}
+
 .gradeform .button {
     padding: 5px 8px 5px 8px;
     background: #DED7C8;

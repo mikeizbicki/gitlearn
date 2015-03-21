@@ -39,12 +39,7 @@ studentname=$(getStudentInfo $user name)
 
 if [ -z $studentname ]; then
     echo "<h2>Grades</h2>"
-    echo "<p class=\"error\"><b>Invalid user name.</b></p>"
-    echo "<form action=\"grades\" method=\"GET\" class=\"gradeform\">"
-    echo "Please enter a valid cs account:<br>"
-    echo "<input type=\"text\" name=\"user\"><br>"
-    echo "<input type=\"submit\" value=\"Enter\" class=\"button\">"
-    echo "</form>"
+    echo "<p class=\"error\"><b>You are not enrolled in this class. Please follow the instructions in lab0 to enroll.</b></p>"
     exit
 fi
 
@@ -67,6 +62,7 @@ echo "<tr><th>Grade</th><th>Assignment</th><th>Grader</th></tr>"
 
 cd "$tmpdir/$classname-$user"
 for f in `find . -name grade | sort`; do
+    #echo `cut -d'.' -f2 <<< "$f"` >&2
     echo "<tr>"
     dir=`dirname $f`
     assn=$(pad "$(basename $dir)" 30)
