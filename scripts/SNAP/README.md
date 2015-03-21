@@ -35,7 +35,7 @@ Github offers the option to add your name in your profile. The following is a co
 Student grade vs. their profile has their real name (1 means yes, 0 means no)
 
 
-![](http://i.imgur.com/3ftJKR8.png)
+![](http://i.imgur.com/IoPV6tY.png)
 
 
 Student grade vs. their username is some combination of letters then numbers (eg. dimitri001) (1 means yes, 0 means no)
@@ -47,12 +47,12 @@ Student grade vs. their username is some combination of letters then numbers (eg
 Student grade vs. size of website file 
 
 
-![](http://i.imgur.com/rj09s7z.png)
+![](http://i.imgur.com/w2Dg84T.png)
 
 Student grade vs. # of times their username was mentioned
 
 
-![](http://i.imgur.com/MOZ3AkO.png)
+![](http://i.imgur.com/2YcMgOh.png)
 
 Reddit
 ---
