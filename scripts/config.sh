@@ -36,7 +36,7 @@ if [ -z "$GITLEARN_CLASSDIR" ]; then
     # verify that we are currently in a local gitlearn directory
     # FIXME: make this a separate function and more robust
     if [ ! -d "assignments" ] || [ ! -d "people" ]; then
-        echo "error: this does not appear to be a valid gitlearn directory"
+        echo "error: this does not appear to be a valid gitlearn directory" >&2
     fi
 
 # otherwise, run in installed folder
@@ -86,6 +86,15 @@ mag="\x1b[35m"
 cyn="\x1b[36m"
 endcolor="\x1b[0m"
 
+#colors for website
+webred="<FONT COLOR=\"C20000\">"
+webgreen="<FONT COLOR=\"006400\">"
+webyellow="<FONT COLOR=\"BB8900\">"
+webblue="<FONT COLOR=\"0000FF\">"
+webmag="<FONT COLOR=\"FF00FF\">"
+webcyn="<FONT COLOR=\"0081A1\">"
+webendcolor="</FONT>"
+
 function error {
     echo -e "$red ERROR: $@$endcolor" >&2
     failScript
@@ -107,6 +116,7 @@ function getStudentList {
 
 # $1 = the student's csaccount (which is the name of file containing their info)
 # $2 = the attribute you want about the student
+# $3 = optional parameter to specify you want output for website version
 function getStudentInfo {
     csaccount="$1"
     if [ -z "$2" ]; then
@@ -116,7 +126,13 @@ function getStudentInfo {
     # FIXME: this matches any attribute that contains $2 rather than equals $2
     ret=$(awk -F "=" "/^$2/ {print \$2}" "$studentinfo/$csaccount" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     if [ -z "$ret" ]; then
-        error "student $csaccount does not have attribute $2 in their studentinfo file"
+        # if no third parameter, output message for terminal version
+        if [ -z "$3" ]; then
+            error "student $csaccount does not have attribute $2 in their studentinfo file"
+        # otherwise, output message for website version
+        else
+            echo "student $csaccount does not have attribute $2 in their studentinfo file" >&2
+        fi
     fi
     echo "$ret"
 }
@@ -206,7 +222,7 @@ function downloadRepo {
 
     # download repo
     if [ ! -d "$clonedir" ]; then
-        echo "  running git clone on [$giturl]"
+        echo "  running git clone on [$giturl]" >&2
 	    git clone --quiet "$giturl" "$clonedir"
 	    cd "$clonedir"
 
@@ -228,7 +244,7 @@ function downloadRepo {
             fi
         fi
     else
-        echo "  running git pull in [$clonedir]"
+        echo "  running git pull in [$clonedir]" >&2
         cd "$clonedir"
         git fetch --all --quiet > /dev/null 2> /dev/null
 
@@ -436,8 +452,44 @@ function colorPercent {
     fi
 }
 
+# $1 = percent
+function colorPercentLink {
+    local per="$1"
+    if [[ -z $1 ]]; then
+        printf "blacklink"
+    elif ((`bc <<< "$per>=90"`)); then
+        printf "greenlink"
+    elif ((`bc <<< "$per>=80"`)); then
+        printf "cynlink"
+    elif ((`bc <<< "$per>=70"`)); then
+        printf "yellowlink"
+    else
+        printf "redlink"
+    fi
+}
+
+# $1 = percent
+function colorPercentWeb {
+    local per="$1"
+    if [[ -z $1 ]]; then
+        printf "$webendcolor"
+    elif ((`bc <<< "$per>=90"`)); then
+        printf "$webgreen"
+    elif ((`bc <<< "$per>=80"`)); then
+        printf "$webcyn"
+    elif ((`bc <<< "$per>=70"`)); then
+        printf "$webyellow"
+    else
+        printf "$webred"
+    fi
+}
+
 function resetColor {
     printf "$endcolor"
+}
+
+function resetColorWeb {
+    printf "$webendcolor"
 }
 
 # $1 = percent
@@ -449,9 +501,24 @@ function dispPercent {
 }
 
 # $1 = percent
+function dispPercentWeb {
+    local per="$1"
+    colorPercentWeb "$per"
+    printf "$(padPercent $per)"
+    resetColorWeb
+}
+
+# $1 = percent
+# $2 = optional argument to make it format for website
 function percentToLetter {
     per="$1"
-    colorPercent "$1"
+    # if second arg is empty, color for terminal version
+    if [ -z "$2" ]
+        colorPercent "$1"
+    # otherwise, color for web version
+    else
+        colorPercentWeb "$1"
+    fi
     if ((`bc <<< "$per>=97"`)); then
         printf "A+"
     elif ((`bc <<< "$per>=93"`)); then
@@ -479,7 +546,12 @@ function percentToLetter {
     else
         printf "F "
     fi
-    resetColor
+    # reset color depending on if it is terminal version or web version
+    if [ -z "$2" ]
+        resetColor
+    else
+        resetColorWeb
+    fi
 }
 
 ##################################

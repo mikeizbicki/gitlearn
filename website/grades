@@ -1,0 +1,59 @@
+#!/bin/bash
+
+echo "<!DOCTYPE html>"
+echo "<html>"
+
+echo "<head>"
+echo "<link type=\"text/css\" rel=\"stylesheet\" href=\"stylesheet.css\" >"
+echo "<title>Grades</title>"
+echo "</head>"
+
+echo "<body>"
+
+if [ -z "$user" -o -z "$password" ]
+then
+    echo "<h2>Grades</h2>"
+    echo "<form action=\"grades\" method=\"POST\" class=\"gradeform\">"
+    echo "Sign into your cs account to view your grades.<br><br>"
+    echo "Username:<br>"
+    echo "<input type=\"text\" name=\"user\" value=\"$user\"><br>"
+    echo "Password:<br>"
+    echo "<input type=\"password\" name=\"password\"><br>"
+    echo "<input type=\"submit\" value=\"Enter\" class=\"button\">"
+    echo "</form>"
+else
+    var=$($webroot/authuser.exp $user $password)
+    echo "var is $var" >&2
+    if [ "$var" == "incorrect" ]; then
+         echo "<h2>Grades</h2>"
+         echo "<p class=\"error\"><b>Invalid user name and/or password.</b></p>"
+         echo "<form action=\"grades\" method=\"POST\" class=\"gradeform\">"
+         echo "Sign into your cs account to view your grades.<br><br>"
+         echo "Username:<br>"
+         echo "<input type=\"text\" name=\"user\"><br>"
+         echo "Password:<br>"
+         echo "<input type=\"password\" name=\"password\"><br>"
+         echo "<input type=\"submit\" value=\"Enter\" class=\"button\">"
+         echo "</form>"
+     elif [ "$var" == "correct" ]; then
+         $webroot/calcgrade.sh $user
+     else
+         echo "<h2>Grades</h2>"
+         echo "<p class=\"error\"><b>Error signing in. Please try again.</b></p>"
+         echo "<form action=\"grades\" method=\"POST\" class=\"gradeform\">"
+         echo "Sign into your cs account to view your grades.<br><br>"
+         echo "Username:<br>"
+         echo "<input type=\"text\" name=\"user\" value=\"$user\"><br>"
+         echo "Password:<br>"
+         echo "<input type=\"password\" name=\"password\"><br>"
+         echo "<input type=\"submit\" value=\"Enter\" class=\"button\">"
+         echo "</form>"
+     fi
+fi
+
+echo "<br><br>"
+echo "<a href=\"..\">Home</a>"
+
+echo "</body>"
+
+echo "</html>"
