@@ -1,0 +1,154 @@
+38 / 40
+
+Grade file
+
+  [2/ 4]
+  [6/ 6]
+  [8/ 8]
+  [10/ 10]
+  [12/ 12]
+
+[] Comment
+  [ This is a test / will not match ]
+  ( unless, of course, "zero" is run. )
+  ( it doesn't depend on validity of fields to put)
+  ( a zero in the right place )
+
+Text can go anywhere. It will not get touched when grading.
+
+  [
+  /
+  29]
+
+  <-20> this is not included with the parsing... yet!
+
+
+Lots of tests:
+
+
+asdf
+
+[asdf]
+[a/a]
+[a/]
+[/a]
+
+[]
+[ ]
+[/]
+[ /]
+[ / ]
+
+[8]
+[ 8]
+[8 ]
+[ 8 ]
+[9.0]
+[ 9.0]
+[9.0 ]
+[ 9.0 ]
+
+[8/]
+[8/7]
+[8/ ]
+[8/ 7]
+[ 8/]
+[ 8/7]
+[ 8/ ]
+[ 8/ 7]
+[8 /]
+[8 /7]
+[8 / ]
+[8 / 7]
+[ 8 /]
+[ 8 /7]
+[ 8 / ]
+[ 8 / 7]
+[9.0/]
+[9.0/34]
+[9.0/ ]
+[9.0/ 34]
+[ 9.0/]
+[ 9.0/34]
+[ 9.0/ ]
+[ 9.0/ 34]
+[9.0 /]
+[9.0 /34]
+[9.0 / ]
+[9.0 / 34]
+[ 9.0 /]
+[ 9.0 /34]
+[ 9.0 / ]
+[ 9.0 / 34]
+
+[8/ ]
+[8/7 ]
+[8/  ]
+[8/ 7 ]
+[ 8/ ]
+[ 8/7 ]
+[ 8/  ]
+[ 8/ 7 ]
+[8 / ]
+[8 /7 ]
+[8 /  ]
+[8 / 7 ]
+[ 8 / ]
+[ 8 /7 ]
+[ 8 /  ]
+[ 8 / 7 ]
+[9.0/ ]
+[9.0/34 ]
+[9.0/ ]
+[9.0/ 34 ]
+[ 9.0/ ]
+[ 9.0/34 ]
+[ 9.0/  ]
+[ 9.0/ 34 ]
+[9.0 / ]
+[9.0 /34 ]
+[9.0 /  ]
+[9.0 / 34 ]
+[ 9.0 / ]
+[ 9.0 /34 ]
+[ 9.0 /  ]
+[ 9.0 / 34 ]
+
+
+asdf [/2] jkl;
+asdf [ /2] jkl;
+asdf [/ 2] jkl;
+asdf [/2 ] jkl;
+asdf [ / 2] jkl;
+asdf [/ 2 ] jkl;
+asdf [ / 2 ] jkl;
+asdf [/3.0] jkl;
+asdf [ /3.0] jkl;
+asdf [/ 3.0] jkl;
+asdf [/3.0 ] jkl;
+asdf [ / 3.0] jkl;
+asdf [/ 3.0 ] jkl;
+asdf [ / 3.0 ] jkl;
+asdf [4/4.0] jkl;
+asdf [ 4/4.0] jkl;
+asdf [4 /4.0] jkl;
+asdf [4/ 4.0] jkl;
+asdf [4/4.0 ] jkl;
+asdf [ 4 /4.0] jkl;
+asdf [4 / 4.0] jkl;
+asdf [4/ 4.0 ] jkl;
+asdf [ 4 / 4.0] jkl;
+asdf [4 / 4.0 ] jkl;
+asdf [ 4 / 4.0 ] jkl;
+asdf [4.0/4.0] jkl;
+asdf [ 4.0/4.0] jkl;
+asdf [4.0 /4.0] jkl;
+asdf [4.0/ 4.0] jkl;
+asdf [4.0/4.0 ] jkl;
+asdf [ 4.0 /4.0] jkl;
+asdf [4.0 / 4.0] jkl;
+asdf [4.0/ 4.0 ] jkl;
+asdf [ 4.0 / 4.0] jkl;
+asdf [4.0 / 4.0 ] jkl;
+asdf [ 4.0 / 4.0 ] jkl;
+
