@@ -3,6 +3,15 @@
 Gitlearn is an open source [learning management system](http://en.wikipedia.org/wiki/Learning_management_system) (similar to [ilearn/blackboard](http://www.blackboard.com/)).
 The distinguishing feature of gitlearn is that classes and grades are stored in git repositories.
 
+## Using gitlearn
+
+To use Gilearn you must have officially enrolled in the class by finishing lab1.
+You must also be in the top level directory of your ucr-cs100 project.
+From here you can clone gitlearn if you are not on the UCR servers.
+If you are on the class server you should activate the ucr-cs100 command to setup your shell.
+Once either of these are done you can use Gitlearn to track your grade progress.
+
+
 ## how gitlearn stores grades
 
 Every class has an associated repository.
@@ -43,9 +52,9 @@ You can use the `calcgrade.sh` script to calculate your whole grade for the cour
 This script automatically downloads the latest version of your grades repo, inspects the grade you received on each assignment, and calculates your current and final grades for the course.
 
 The `calcgrade.sh` script expects a single argument that corresponds to the UCR netid/CS account of the grade you want to check.
-For example, if you want to find the grade of the `examplestudent` account, you would run:
+For example, if you want to find the grade of the `examplestudent` account and you are on the class server, you would run:
 ```
-$ calcgrade.sh examplestudent
+    $ calcgrade.sh examplestudent
 ```
 and the output looks something like:
 ```
@@ -79,6 +88,11 @@ overall total =  190 /  550 = 34.29
 ```
 Notice that ungraded assignments are marked with a grade of `---` and not included in the running total.
 
+If you are not on the class server you can use
+    
+    $ gitlearn/scripts/calcgrade.sh examplestudent
+
+The output would be the same
 ## cheating
 
 All of your grade information will be stored in your own git repository.
