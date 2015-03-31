@@ -1,12 +1,34 @@
-# cs100-runtests Features
+# semi-automatic grading
 
-## About
-``cs100-runtests`` is a script designed to assist testing and grading ``rshell``.
-This section lists the features of ``cs100-runtests``.
-For a an explanation of the features see the [explanation section](#cs100-runtests-Explanation) below.
+The `runtests` script makes it easier to test and grade terminal programs.
+It is specifically designed for the complex, loosely specified assignments that are common in upper division computer science courses.
 
-## What cs100-runtests does
-![screen1.png](pics/screen1.png)
+## using runtests
+
+You start the tests by running:
+```
+$ runtests program testfile gradefile
+```
+where `program` is the executable you want to test;
+`testfile` describes the test cases that will be passed to `program`;
+and `gradefile` describes the scoring criteria.
+This command opens a [tmux session](http://en.wikipedia.org/wiki/Tmux) with three panes.
+It looks something like:
+![screen1.png](img/screen1.png)
+The top-right pane displays the current test case and `program`'s output.
+The bottom-right pane displays a list of commands that we can enter.
+The left pane displays the contents of `gradefile`.
+
+## format of `testfile`
+
+Each line of `testfile` corresponds to a single test case that will be passed to `program`.
+
+## format of `gradefile`
+
+The top line of `gradefile` contains the student's score.
+
+<!--
+## What runtests does
 
 In the left pane, ``vim`` is open and editing a grade file.
 The grade file is always assumed to be in the current directory.
@@ -19,13 +41,10 @@ If ``sh`` doesn't have any children, ``Control-C`` is sent to the ``shell`` pane
 Then, ``shell`` is typed and run.
 If ``sh`` has no children at this point, you are notified of the failure and sending test cases becomes disabled.
 
-``cs100-runtests`` will start focused on the controller in the bottom-right pane.
+``runtests`` will start focused on the controller in the bottom-right pane.
 The controller accepts commands that are interpreted to change the grade file or to run test cases in the ``shell`` pane.
 
 ## Usage
-```
-cs100-runtests [shell [testCaseFile]]
-```
 All parameters are optional.
 
 * ``shell`` can be any shell (``bin/rshell``, ``sh``, ``bash``, ``ksh``, etc).
@@ -36,7 +55,7 @@ It is possible to load test using the controller.
 Only one file's test cases may be loaded at a time.
 
 ## Features
-When ``cs100-runtests`` is started, three panes are created in the terminal.
+When ``runtests`` is started, three panes are created in the terminal.
 On the left, ``vim`` edits the ``grade`` file in the current directory.
 In the upper-right, the ``shell`` is started.
 On the bottom-right, the runtests controller awaits commands.
@@ -96,15 +115,15 @@ Also, any amount of whitespace (excluding newlines) can go before or after the `
 ``<value>`` is made up of numbers and an optional period, and always starts with a number.
 
 ## Walkthrough
-This walkthrough will cover the basic features of ``cs100-runtests``.
+This walkthrough will cover the basic features of ``runtests``.
 
-Run ``cs100-runtests`` like the following.
+Run ``runtests`` like the following.
 ```
-./cs100-runtests bin/rshell exampleFolder/exampleTestCaseFile
+./runtests bin/rshell exampleFolder/exampleTestCaseFile
 ```
-It should be run in the ``cs100-runtests`` folder of the ``gitlearn`` repository.
+It should be run in the ``runtests`` folder of the ``gitlearn`` repository.
 
-Start ``cs100-runtests``.
+Start ``runtests``.
 You'll notice the grade file is open on the left, an example ``rshell`` is open in the upper-right, and the selected pane is the controller in the bottom-right.
 The controller starts by letting you know if your test case file was successfully loaded and printing the commands available to you.
 
@@ -135,7 +154,7 @@ Trying to run more cases yields an error:
 there are no more test cases.
 
 Now it's time to start grading.
-First, zero out all of the grades with ``zero`` because no points have been earned yet. 
+First, zero out all of the grades with ``zero`` because no points have been earned yet.
 Let's give the student a full grade for the objective on lines 5 and 7:
 ```
 f 5
@@ -153,5 +172,5 @@ g 9 11
 
 If you wanted to give a full grade to every line in the file, run ``full``.
 
-To stop running ``cs100-runtests`` type ``exit`` and hit ``Enter``.
-
+To stop running ``runtests`` type ``exit`` and hit ``Enter``.
+-->

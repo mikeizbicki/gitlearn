@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # sets up and launches cs100-runtests
 
@@ -73,12 +73,12 @@ then
     tmux set-option -t $session exit-unattached off
     # if the session becomes unattached, don't kill it
     tmux set-option -t $session destroy-unattached off
-  
+
     ### window settings
     # mouse support for window
     tmux set-window-option -t $session:$window mode-mouse on
     tmux set-window-option -t $session:$window allow-rename off
-  
+
     # split current window vertically, ends up as the top right pane
     tmux split-window -h "sh"
     # after pane is created, it is selected
@@ -88,10 +88,10 @@ then
     #echo upperRightPID:$upperRightPID
     # split right pane horizontally, ends up as the bottom right pane
     tmux split-window -v -t 1 "$0 --controller $upperRightPID $shell $testCaseFile"
-  
+
     # show linenumbers in vim (pane 0)
     tmux send-keys -t 0 ":set number" C-m C-l
-  
+
     tmux -2 attach -t $session >/dev/null
 
 else
@@ -112,12 +112,12 @@ else
     tempFile=$(mktemp)
     prevCommand="next"
     commandIndex=0
-  
+
     declare -a commandArray
-  
+
     # function to print its parameters in red
     # does not insert a newline after printing
-  
+
     cleanupAndQuit() {
         rm -rf $tempFile
         tmux kill-session -t $session
