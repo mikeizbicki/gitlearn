@@ -512,13 +512,16 @@ function dispPercentWeb {
 # $2 = optional argument to make it format for website
 function percentToLetter {
     per="$1"
+
     # if second arg is empty, color for terminal version
-    if [ -z "$2" ]
+    if [ -z "$2" ]; then
         colorPercent "$1"
+
     # otherwise, color for web version
     else
         colorPercentWeb "$1"
     fi
+
     if ((`bc <<< "$per>=97"`)); then
         printf "A+"
     elif ((`bc <<< "$per>=93"`)); then
@@ -546,8 +549,9 @@ function percentToLetter {
     else
         printf "F "
     fi
+
     # reset color depending on if it is terminal version or web version
-    if [ -z "$2" ]
+    if [ -z "$2" ]; then
         resetColor
     else
         resetColorWeb

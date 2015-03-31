@@ -5,7 +5,7 @@
 # grades associated with the account
 #
 
-source "../scripts/config.sh"
+source "gitlearn/scripts/config.sh"
 
 ########################################
 # check for valid command line params
@@ -26,7 +26,7 @@ installInstructorKeys
 
 studentname=$(getStudentInfo $user name web)
 
-if [ -z $studentname ]; then
+if [ -z "$studentname" ]; then
     echo "<h2>Grades</h2>"
     echo "<p class=\"error\"><b>You are not enrolled in this class. Please follow the instructions in lab0 to enroll.</b></p>"
     exit

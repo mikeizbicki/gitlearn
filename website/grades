@@ -22,7 +22,7 @@ then
     echo "<input type=\"submit\" value=\"Enter\" class=\"button\">"
     echo "</form>"
 else
-    var=$($webroot/authuser.exp $user $password)
+    var=$($RAPACHE_WEBROOT/authuser.exp $user $password)
     echo "var is $var" >&2
     if [ "$var" == "incorrect" ]; then
          echo "<h2>Grades</h2>"
@@ -36,7 +36,7 @@ else
          echo "<input type=\"submit\" value=\"Enter\" class=\"button\">"
          echo "</form>"
      elif [ "$var" == "correct" ]; then
-         $webroot/calcgrade.sh $user
+         $RAPACHE_WEBROOT/calcgrade.sh $user
      else
          echo "<h2>Grades</h2>"
          echo "<p class=\"error\"><b>Error signing in. Please try again.</b></p>"
