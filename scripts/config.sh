@@ -86,6 +86,7 @@ mag="\x1b[35m"
 cyn="\x1b[36m"
 endcolor="\x1b[0m"
 
+<<<<<<< HEAD
 #colors for website
 webred="<FONT COLOR=\"C20000\">"
 webgreen="<FONT COLOR=\"006400\">"
@@ -95,6 +96,8 @@ webmag="<FONT COLOR=\"FF00FF\">"
 webcyn="<FONT COLOR=\"0081A1\">"
 webendcolor="</FONT>"
 
+=======
+>>>>>>> Updated SNAP
 function error {
     echo -e "$red ERROR: $@$endcolor" >&2
     failScript
@@ -116,7 +119,10 @@ function getStudentList {
 
 # $1 = the student's csaccount (which is the name of file containing their info)
 # $2 = the attribute you want about the student
+<<<<<<< HEAD
 # $3 = optional parameter to specify you want output for website version
+=======
+>>>>>>> Updated SNAP
 function getStudentInfo {
     csaccount="$1"
     if [ -z "$2" ]; then
@@ -126,6 +132,7 @@ function getStudentInfo {
     # FIXME: this matches any attribute that contains $2 rather than equals $2
     ret=$(awk -F "=" "/^$2/ {print \$2}" "$studentinfo/$csaccount" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     if [ -z "$ret" ]; then
+<<<<<<< HEAD
         # if no third parameter, output message for terminal version
         if [ -z "$3" ]; then
             error "student $csaccount does not have attribute $2 in their studentinfo file"
@@ -133,6 +140,9 @@ function getStudentInfo {
         else
             echo "student $csaccount does not have attribute $2 in their studentinfo file" >&2
         fi
+=======
+        error "student $csaccount does not have attribute $2 in their studentinfo file"
+>>>>>>> Updated SNAP
     fi
     echo "$ret"
 }
@@ -222,7 +232,11 @@ function downloadRepo {
 
     # download repo
     if [ ! -d "$clonedir" ]; then
+<<<<<<< HEAD
         echo "  running git clone on [$giturl]" >&2
+=======
+        echo "  running git clone on [$giturl]"
+>>>>>>> Updated SNAP
 	    git clone --quiet "$giturl" "$clonedir"
 	    cd "$clonedir"
 
@@ -244,7 +258,11 @@ function downloadRepo {
             fi
         fi
     else
+<<<<<<< HEAD
         echo "  running git pull in [$clonedir]" >&2
+=======
+        echo "  running git pull in [$clonedir]"
+>>>>>>> Updated SNAP
         cd "$clonedir"
         git fetch --all --quiet > /dev/null 2> /dev/null
 
@@ -452,6 +470,7 @@ function colorPercent {
     fi
 }
 
+<<<<<<< HEAD
 # $1 = percent
 function colorPercentLink {
     local per="$1"
@@ -484,14 +503,19 @@ function colorPercentWeb {
     fi
 }
 
+=======
+>>>>>>> Updated SNAP
 function resetColor {
     printf "$endcolor"
 }
 
+<<<<<<< HEAD
 function resetColorWeb {
     printf "$webendcolor"
 }
 
+=======
+>>>>>>> Updated SNAP
 # $1 = percent
 function dispPercent {
     local per="$1"
@@ -501,6 +525,7 @@ function dispPercent {
 }
 
 # $1 = percent
+<<<<<<< HEAD
 function dispPercentWeb {
     local per="$1"
     colorPercentWeb "$per"
@@ -522,6 +547,11 @@ function percentToLetter {
         colorPercentWeb "$1"
     fi
 
+=======
+function percentToLetter {
+    per="$1"
+    colorPercent "$1"
+>>>>>>> Updated SNAP
     if ((`bc <<< "$per>=97"`)); then
         printf "A+"
     elif ((`bc <<< "$per>=93"`)); then
@@ -549,6 +579,7 @@ function percentToLetter {
     else
         printf "F "
     fi
+<<<<<<< HEAD
 
     # reset color depending on if it is terminal version or web version
     if [ -z "$2" ]; then
@@ -556,6 +587,9 @@ function percentToLetter {
     else
         resetColorWeb
     fi
+=======
+    resetColor
+>>>>>>> Updated SNAP
 }
 
 ##################################

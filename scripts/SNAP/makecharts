@@ -1,0 +1,14 @@
+#!/bin/bash
+
+rm scrip
+echo "set datafile separator \",\"" > scrip
+echo "f1(x) = a1*x + b1" >> scrip
+echo "fit f1(x) 'total.csv' using "$1":2 via a1, b1" >> scrip
+echo "plot 'total.csv' using "$1":2, f1(x)" >> scrip
+
+echo "set term png" >> scrip
+echo "set output \"pics/"$1"vs2.png\"" >> scrip
+echo "replot" >> scrip
+echo "set term x11" >>scrip
+
+gnuplot < scrip
