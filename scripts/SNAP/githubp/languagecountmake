@@ -1,0 +1,9 @@
+#!/bin/bash
+
+COUNTER=0
+for empty in $( cat < ./githubp/res/$1?tab=repositories |  grep 'twitter:card' | sed 's/.*repositories written in //' | sed 's/ Follow their code on.*//' | sed 's/and//')
+ do
+    let COUNTER=COUNTER+1
+done
+
+echo ,$COUNTER

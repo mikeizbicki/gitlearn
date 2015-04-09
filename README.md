@@ -12,3 +12,4 @@ $ git clone https://github.com/mikeizbicki/gitlearn
 $ export PATH=$(pwd)/scripts:$PATH
 ```
 FIXME: add better install script
+
