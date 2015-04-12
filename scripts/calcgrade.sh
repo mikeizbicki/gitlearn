@@ -76,7 +76,11 @@ for f in `find . -name grade | sort`; do
             printf "$green[signed]$endcolor"
         else
             if [ "$signature" = "U" ]; then
-                printf "$cyn[signed but untrusted]$endcolor"
+                # this means that our commits are signed but untrusted
+                # this isn't perfect cryptographically, but it should be good enough for us
+                # displaying a different message is confusing for students
+                #printf "$cyn[signed but untrusted]$endcolor"
+                printf "$green[signed]$endcolor"
             else
                 printf "$red[bad signature]$endcolor"
             fi
