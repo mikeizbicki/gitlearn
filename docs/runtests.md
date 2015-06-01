@@ -7,7 +7,7 @@ It is specifically designed for the complex, loosely specified assignments that 
 
 You start the tests by running:
 ```
-$ runtests program testfile gradefile
+$ runtests.sh program testfile gradefile
 ```
 where `program` is the executable you want to test;
 `testfile` describes the test cases that will be passed to `program`;
