@@ -1,8 +1,8 @@
-#How to use CS100 Runtests
+#How to use Runtests
 
-This walkthrough will familiarize you with the basic features and usages of ``cs100-runtests``.
+This walkthrough will familiarize you with the basic features and usages of ``runtests``.
 
-First, start cs100 runtests as such:
+First, start ``runtests`` as such:
 ```
 runtests.sh bin/rshell exampleFolder/exampleTestCaseFile
 ```
@@ -37,15 +37,15 @@ You'll notice that our ``bin/rshell`` has finished executing.
 
 ![ss5.PNG](img/ss5.PNG)
 
-There is no need to quit and restart ``cs100-runtests`` when this is encountered. 
-Simply run the next test case and ``cs100-runtests`` will restart ``bin/rshell``. 
+There is no need to quit and restart ``runtests`` when this is encountered. 
+Simply run the next test case and ``runtests`` will restart ``bin/rshell``. 
 You will also be notified that ``bin/rshell`` has been restarted.
 
 ![ss6.PNG](img/ss6.PNG)
 
 Step through the next test case. This one backgrounds the shell.
-Fortunately, ``cs100-runtests`` is able to use job control to bring back the stopped process.
-Try the last case, and you will see that ``cs100-runtests`` has foregrounded the program.
+Fortunately, ``runtests`` is able to use job control to bring back the stopped process.
+Try the last case, and you will see that ``runtests`` has foregrounded the program.
 
 ![ss7.PNG](img/ss7.PNG)
 
@@ -56,7 +56,7 @@ The controller prints out an error notifying you that you have run out of test c
 ![ss8.PNG](img/ss8.PNG)
 
 Now that we have finished testing the ``shell``, let's grade it. 
-Grading can happen at any time while you're using ``cs100-runtests``.
+Grading can happen at any time while you're using ``runtests``.
 First, zero out all of the grades by entering ``zero`` in the controller pane. 
 
 ![ss9.PNG](img/ss9.PNG)
@@ -84,15 +84,15 @@ If you wanted to give a full grade for every objective on every line, run ``full
 
 ![ss12.PNG](img/ss12.PNG)
 
-Now that we are done testing and grading ``bin/rshell``, type ``exit`` and hit ``Enter`` to stop running ``cs100-runtests``.
+Now that we are done testing and grading ``bin/rshell``, type ``exit`` and hit ``Enter`` to stop running ``runtests``.
 
-Congratulations. You now know the basic features of ``cs100-runtests``.
+Congratulations. You now know the basic features of ``runtests``.
 
 
 ##A more detailed explanation
-``cs100-runtests`` is a script that can be used by students to test their programs, and by TAs to grade student programs.
+``runtests`` is a script that can be used by students to test their programs, and by TAs to grade student programs.
 
-To start runtests:
+To start ``runtests``:
 
 ```
 runtests.sh <program> <testcasefile>
@@ -101,7 +101,7 @@ where ``<program>`` is the path to the program you want to test (e.g. ``bin/rshe
 and <testcasefile> is the path to the file containing all of the test cases you would like to use on your shell.
 These parameters are optional, as runtests will default to ``bin/rshell`` if no shell is entered, and it is possible to load a test case file within the program after the script has been run.
 
-Three panes are created when ``cs100-runtests`` is started.
+Three panes are created when ``runtests`` is started.
 The lower right pane is the [Runtests Controller Pane](#the-runtests-controller-pane).  
 The left pane is the [Vim Pane](#the-vim-pane).  
 The upper right pane is the [Shell Pane](#the-shell-pane).  
@@ -115,7 +115,7 @@ Properly formatted test case files contain each individual test case on a separa
 The Runtests Controller Pane is controlled with the following commands:
 * ``c`` or ``clear`` clears the controller screen.
 * ``e``, ``exit``, ``q``, or ``quit`` ends the program.
-* ``h`` or ``help`` prints a small help message detailing the controls for ``cs100-runtests``.
+* ``h`` or ``help`` prints a small help message detailing the controls for ``runtests``.
   * ``h?``, ``?h``, ``?``, and ``??`` also print the help message.
 
 
