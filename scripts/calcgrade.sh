@@ -57,6 +57,8 @@ for f in `find . -name grade | sort`; do
     assn=$(pad "$(basename $dir)" 30)
     grader=$(git log -n 1 --pretty=format:"%aN" "$f")
     signature=$(git log -n 1 --pretty=format:"%G?" "$f")
+    gradee=$(git log -1 --pretty=format:"%s" "$f" |
+             grep -Eio '\<[a-z]{5}[0-9]{3}\>')
 
     grade="---"
     if isGraded "$f"; then
@@ -83,6 +85,18 @@ for f in `find . -name grade | sort`; do
                 printf "$green[signed]$endcolor"
             else
                 printf "$red[bad signature]$endcolor"
+            fi
+        fi
+        # check whether the cs account on the commit message matches the cs
+        # account of the student
+        if [ -z "$gradee" ]; then
+            echo
+            warning "no cs account name found in commit message"
+        else
+            if [ ! "$user" = "$gradee" ]; then
+                echo
+                warning "student's cs account name does not match cs account name
+in commit message: \"$gradee\""
             fi
         fi
         echo
