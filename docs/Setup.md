@@ -1,50 +1,37 @@
 #Setup gitlearn for your class
 
-This is a general overview on tools that an instructors would use for class. This tutorial will cover the basics of instructor tool scripts, but more specifically, how to setup your class with **gitlearn**.
+This is a general overview on tools that instructors would use regularly. This tutorial will cover the basics of instructor tool scripts, but more specifically, how to setup your class with **gitlearn**.
 
-##Table of Contents
-[1. Setup](#setup)  
-[2. Adding Instructors](#addkey)  
-[3. Grading](#grading)  
-[4. View Grades](#view)  
-[5. Additional tools/resources](#resource)  
-
-<a name="setup"/>
 ###Setup
 
-**Follow the instructions to  setup a class repository and install gitlearn:**
+1. Create a repository on Github with your classname.
 
-Create a repository on Github with your classname.
+2. Clone a local copy of your current repository to your local machine.
 
-Clone a local copy of your current repository to your local machine.
-
-Create the following directories inside the respository folder:
-- create an `assignments` directory
-- create an `people` directory  
---inside include a `students`  directory  
---inside include a `instructors`  directory  
-
-***Note:***
-You can add subfolders into the `assignments` directory for different type of assignments and categories.
-
-Clone the `gitlearn `respository into your class folder.
-
-Add the `scripts` folder to your `PATH` using the following commands:
-```
-$ git clone https://github.com/mikeizbicki/gitlearn
-$ export PATH=$(pwd)/gitlearn/scripts:$PATH
-```
-In order for your `PATH` to remain across sessions you need to update your `~/.bashrc` (or similar):
-```
-$ echo "export PATH=$(pwd)/gitlearn/scripts:"'$PATH' >> $HOME/.bashrc
-```
-Push all commits to your github repository.
-
-<a name="addkey"/>
+3. Clone a copy of **gitlearn** into your local repository 
+ ```
+ $ git clone https://github.com/mikeizbicki/gitlearn  
+ $ echo "export PATH=$(pwd)/gitlearn/scripts:"'$PATH' >> $HOME/.bashrc 
+ ```
+4. Setup directories for class folders
+ ```
+ $ mkdir assignments
+ $ mkdir people
+ $ cd people
+ $ mkdir students
+ $ mkdir instructors
+ 
+ ```
+5. Commit all changes to your repository
+ ```
+ $ git add --all
+ $ git commit -m "Intial Classroom commit" 
+ $ git push origin
+ ```
+ 
 ###Adding Instructors
 
-After setting up gitlearn onto your local repository along with your class files,
-it is recommended to add the instructor keys so that student grades can be verified for validity.
+After setting up and installing your classroom repository, it is recommended that you add the instructor keys so that student grades can be verified for validity.
 On the home directory of the class repository, run:
 ```
 $ instructortools-addgrader.sh
@@ -58,66 +45,67 @@ Expect somewhere around 15~ minutes (depending on your current hardware).
 
 **NOTE:**
 The key will automatically push itself onto the main repository.
-Make sure you have your instructors setup on the contributor setting for the repository.
+Make sure you have your instructors github accounts setup as contributor for the repository.
 
 **IMPORTANT:**
 Make sure you generate the key on the computer that you will grade on.
 
+###Create Assignments
+After setting up your classroom repository, you can make assignments store grades for the class.
+For example, you can run the following commands in the `assignments' directory.  
+```
+$ mkdir assn1
+$ cd assn1
+$ echo /100 >> grade
+$ touch README.md
+```
+**NOTE:** 
++ You can add subfolders into the `assignments` directory for different type of assignments and categories.  
++ You can change the grade total to any other integer value.  
 
-
-<a name="grading"/>
 ###Grade Assignments
 The `gradeassignment-all.sh` script lets an instructor grade an assignment for the whole class.
-Before execution, the script requires the parameter of which assignment to grade.
-In order to grade an assignment you will run:
+Before execution, the script requires the assignment path as a parameter of which assignment to grade.
+In order to grade an assignment, you will run the following code:
 ```
-$ gradeassignment-all.sh assignmentfolder
+$ gradeassignment-all.sh assignments/assn1/
 ```
-It will pull a local copy of each student's repository and check for the assignments.
-It will open up a vim editor with a table setup as follow with each students name and id:
+The script will pull a local copy of each student's repository and check for the existence of the assignments.
+It will open up a vim editor with a spreadsheet to edit student grades:
 
 ![gradeassignment.png](img/gradeassignment.png)
 
-The updated grades will get pushed to each respected repository.
+**NOTE:**
+The "spreadsheet" will show if the assignment was previously graded and signed.
+After saving the score on the editor, the script will check for your instructor key to verify and sign the commit.
+The updated grades will then get pushed to each student repository.
 
 ####grading individual assignments
-The `gradeassignment-individual.sh` script allows an instructor to grade an assignment for a specific student, so it required to be ran with two parameters:
+The `gradeassignment-individual.sh` script allows an instructor to grade an assignment for a specific student, so running it requires two parameters: 
 ```
 $ gradeassignment-individual.sh githubaccount assignmentfolder
 ```
-It will pull a local copy of the student's repository and check for the assignments.
-This feature might be used more often as it would allow the grader to input long feedback for the student.
+Similar to the `gradeassignment-all.sh` script, it will pull a local copy of the student's repository and check for the assignments.
+This feature might be used more often as it lets the grader provide feedback for the student.
 It will open up a blank page in the vim editor for grading.
-After the grader is done grading, the script will automatically push the grades to the respected repository.
+The script will automatically push the grades to the student repository.
 
-
-
-<a name="view"/>
 ###View Grades
-In order for instructors to view all the student grades, you would run:
+In order for instructors to view all student grades, you would run:
 ```
 $ instructortools-viewallgrades.sh
 ```
-This script displays registered student names in a table and their overall score.
+This script will pull local copy of each student repository and displays names and overall scores in a table.
 For greater detail on an individual student, use [calcgrade.sh](grades.md).
-```
-================================================================================
- cs account | name                | pnts /  run ( tot) | grade run  | grade tot 
-================================================================================
-xxx001      |Edward Snowden       | 400/500 (705)      |  80.00 B   | 60.00 D
-xxx002      |Steve Jobs           | 100/500 (705)      |  20.00 F   | 0.00 F
-xxx003      |Bill Gates           | 235/500 (705)      |  47.65 F   | 27.65 F
-xxx004      |Linus Torvalds       | 515/500 (705)      |  103.00 A  | 83.00 B
-...
 
-```
+![viewallgrades.png](img/viewallgrades.png)
+
 **NOTE:**
 If you use it the first time, the script will need to clone a local repository of each student.  
-In addition, you may have to run the script twice as it may not get the correct values the first time.
+In addition, you may have to run the script again as it might not get the correct grade values the first time.
 
 
-
-<a name="resource"/>
 ###Additional tools/resources
 
-[`runtests.md`](runtests.md) - semi-automatic grading script
+[`runtests.md`](runtests.md) - semi-automatic grading script  
+[`grades.md`](grades.md) - detailed explaintion on how grades work
