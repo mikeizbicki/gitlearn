@@ -53,10 +53,6 @@ Don't!
 We have access to the full changelog of all the files in your repo.
 For example, if I run the command:
 ```
-$ git log -- [source folder path]/[folder assignment name]/grade
-```
-or  
-```
 $ git log -- hw/hw1-rshell/grade
 ```
 
