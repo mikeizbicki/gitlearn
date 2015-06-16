@@ -1,20 +1,46 @@
-#Setup gitlearn for your class
+#Setup a Database for Your Class with Gitlearn
 
-This is a general overview on tools that instructors would use regularly. This tutorial will cover the basics of instructor tool scripts, but more specifically, how to setup your class with **gitlearn**.
+This is a common database software that instructors would use regularly. 
+This information will cover how to setup your data management system that would hold student grades, homework assignments, and textbook references for your class that you can manage when needed.
+This software should be run on a Linux or Mac based machine.  
+![logo.png](img/logo.png) 
 
-###Setup
+###Installing Procedures
 
-1. Create a repository on Github with your classname.
+#####Step 1: Register a new account on Github. 
+  - To create a new account for a new Database, you need to fill out a signup form with your USERNAME, EMAIL ADDRESS, and PASSWORD after clicking on the following link: [github.com](https://github.com)  
+   ![register.png](img/register.png) 
+  **NOTE:** Once registered your personal information, click on the big GREEN  "Sign up for Github" button to finish.    
 
-2. Clone a local copy of your current repository to your local machine.
+#####Step 2: Create a database on Github with your classname.   
+  - Once registered, on the top right hand corner,  
+  a.) Click on the '+' sign to bring down the selection menu.   
+  b.) Click on the `New Respository` button with the pull-down menu.    
+  ![add.png](img/add.png)  
+  c.) Type the name of your class in the 'Respository Name' section such as "myclass" or "ucla-ENGL1C".  
+  d.) Set 'BSD 3-clause' in the licensing section for more flexibility.  
+  **NOTE:** Steps C and D are shown in the picture as followed.  
+  ![class.png](img/class.png) 
 
-3. Clone a copy of **gitlearn** into your local repository 
+#####Step 3: Build a mirror image of your database to your local machine. 
+ a.) Open up a local terminal.  
+ b.) Type the highlighted commands in sequence as followed:  
  ```
+ $ git clone https://github.com/instructorjdoe001/myclass    
+ $ cd myclass
  $ git clone https://github.com/mikeizbicki/gitlearn  
  $ echo "export PATH=$(pwd)/gitlearn/scripts:"'$PATH' >> $HOME/.bashrc 
  ```
-4. Setup directories for class folders
+#####Step 4: Config your Gitlearn Settings with your Classname.  
+ a.) Use following commands to change the label from `classname="ucr-cs100"` to `classname="yourclassname"`.  
  ```
+ $ cd gitlearn/scripts
+ $ sed -i -e 's/ucr-cs100/yourclassname/' ./config.sh
+ ```
+
+#####Step 5: Setup Directory folders for the Class with your computer.
+ ```
+ $ cd -
  $ mkdir assignments
  $ mkdir people
  $ cd people
@@ -22,17 +48,18 @@ This is a general overview on tools that instructors would use regularly. This t
  $ mkdir instructors
  
  ```
-5. Commit all changes to your repository
- ```
+#####Step 6: Sychronize your local Database with Github.  
+ ```  
  $ git add --all
- $ git commit -m "Intial Classroom commit" 
- $ git push origin
+ $ git commit -m "Intial Classroom commit"  
+ $ git push origin  
+ 
  ```
  
-###Adding Instructors
+###Adding Instructor Verification Keys
 
-After setting up and installing your classroom repository, it is recommended that you add the instructor keys so that student grades can be verified for validity.
-On the home directory of the class repository, run:
+After setting up and installing your classroom database, you should add instructor keys to verify student grades.
+On the home directory of the class database, run:
 ```
 $ instructortools-addgrader.sh
 ```
@@ -40,72 +67,78 @@ $ instructortools-addgrader.sh
 ![addgrader.png](img/addgrader.png)
 
 **NOTE:**
-It will take time for your system to generate a strong RSA key that will be automatically push to the github repository.
-Expect somewhere around 15~ minutes (depending on your current hardware).
-
-**NOTE:**
-The key will automatically push itself onto the main repository.
-Make sure you have your instructors github accounts setup as contributor for the repository.
+This process takes more than 15  minutes to complete.  
 
 **IMPORTANT:**
-Make sure you generate the key on the computer that you will grade on.
+Make sure the key is generated in the computer that you always use because the key is part of verification system.
 
-###Create Assignments
-After setting up your classroom repository, you can make assignments store grades for the class.
-For example, you can run the following commands in the `assignments' directory.  
+###Create Assignment Folders in your Database.
+After setting up your classroom database, you can make assignment directories to store grades for the class.
+For example, you can run the following commands in the `assignments' directory folder.  
 ```
 $ mkdir assn1
 $ cd assn1
 $ echo /100 >> grade
 $ touch README.md
+$ git add --all
+$ git commit -m "Adding assn1"
+$ git push origin
 ```
 **NOTE:** 
 + You can add subfolders into the `assignments` directory for different type of assignments and categories.  
-+ You can change the grade total to any other integer value.  
++ You can update a score or grade in this directory.  
 
-###Grade Assignments
-The `gradeassignment-all.sh` script lets an instructor grade an assignment for the whole class.
-Before execution, the script requires the assignment path as a parameter of which assignment to grade.
-In order to grade an assignment, you will run the following code:
+## Congratulations! You complete a basic database setup.  
+----------------------------------------------------------------------------------------
+## The following sections are used to operate a database:
+
+###Update Assignment Grades
+The `gradeassignment-all.sh` script is for updating the assignment score for the whole class.
+The script requires an appropiate assignment subpath[assn1] as a parameter.
+You would run the following command:
 ```
 $ gradeassignment-all.sh assignments/assn1/
 ```
-The script will pull a local copy of each student's repository and check for the existence of the assignments.
-It will open up a vim editor with a spreadsheet to edit student grades:
+**NOTE:** assn1 can be represented as assignment 1, 2, 3, and so on.    
+The script will pull a local copy of each student's database and check for the existence of the assignments.
+It will be opened up with a vim editor to edit individual student grades on  a spreadsheet as followed:
 
 ![gradeassignment.png](img/gradeassignment.png)
 
 **NOTE:**
 The "spreadsheet" will show if the assignment was previously graded and signed.
-After saving the score on the editor, the script will check for your instructor key to verify and sign the commit.
-The updated grades will then get pushed to each student repository.
+After saving the score on the editor, the script will look for the instructor key to verify and sign the commit.
+The updated grades will then be pushed to each student database.
 
-####grading individual assignments
-The `gradeassignment-individual.sh` script allows an instructor to grade an assignment for a specific student, so running it requires two parameters: 
+####Grading Individual Assignments
+The `gradeassignment-individual.sh` script is to grade an assignment for a specific student. It will require an additional parameters to run: 
 ```
-$ gradeassignment-individual.sh githubaccount assignmentfolder
+$ gradeassignment-individual.sh jdoe001 assignments/assn1/
 ```
-Similar to the `gradeassignment-all.sh` script, it will pull a local copy of the student's repository and check for the assignments.
-This feature might be used more often as it lets the grader provide feedback for the student.
-It will open up a blank page in the vim editor for grading.
-The script will automatically push the grades to the student repository.
+Similar to the `gradeassignment-all.sh` script, this script will pull a local copy of the student's database and check for the assignments.
+This function might be used more often as it lets the grader provide individual feedback for a student.
+It will be opened up with a blank page in the vim editor for updating grades.
+The script will automatically push the grades to the student database as an update.
 
 ###View Grades
-In order for instructors to view all student grades, you would run:
+To view all student grades, the following script should be run:
 ```
 $ instructortools-viewallgrades.sh
 ```
-This script will pull local copy of each student repository and displays names and overall scores in a table.
-For greater detail on an individual student, use [calcgrade.sh](grades.md).
+This script will pull local copy of each student database and display all the names and the overall scores in a table.
 
-![viewallgrades.png](img/viewallgrades.png)
+![viewallgrades.png](img/viewallgrades.png)  
 
+For checking the detailed grades of an individual student, the following script should be used:
+```
+$ calcgrade.sh jdoe001  
+```
 **NOTE:**
-If you use it the first time, the script will need to clone a local repository of each student.  
-In addition, you may have to run the script again as it might not get the correct grade values the first time.
+If the script `instructortools-viewallgrades.sh` is used for the first time, the script will need to clone a local database of each student.  
+In addition, the script will be run again to eliminate the incorrect grades that occur during the first run.
 
 
 ###Additional tools/resources
 
 [`runtests.md`](runtests.md) - semi-automatic grading script  
-[`grades.md`](grades.md) - detailed explaintion on how grades work
+[`grades.md`](grades.md) - detailed explaintion on how grades in gitlearn work
