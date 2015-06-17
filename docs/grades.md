@@ -53,7 +53,7 @@ Don't!
 We have access to the full changelog of all the files in your repo.
 For example, if I run the command:
 ```
-$ git log -- hw/hw1-rshell/grade
+$ git log hw/hw1-rshell/grade
 ```
 
 Then I will get output similar to:
