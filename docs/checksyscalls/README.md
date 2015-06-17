@@ -24,7 +24,7 @@ If you pass in a directory, then it will call itself recursively for each file i
 
 To use the script, you would run:
 ```
-$ checksyscalls.sh directory/filename
+$ checksyscalls.sh src/*
 ```
 ![checksyscalls.gif](../img/checksyscalls.gif)
  
