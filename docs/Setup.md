@@ -4,7 +4,7 @@ This is a common repository software that instructors would use regularly.
 This information covers how to setup your own data management system that would hold student grades, homework assignments, and textbook references for your class.
 This software should be run on a Linux or Mac based machine.
 
-![logo.png](img/logo.png)
+![logo.png](img/setup/logo.png)
 
 ###Installing Procedures
 
@@ -14,20 +14,20 @@ This software should be run on a Linux or Mac based machine.
 - To create a new account, you need to fill out a signup form with your `USERNAME`, `EMAIL ADDRESS`, and `PASSWORD` after clicking on the following link: [github.com](https://github.com).
 - Once you finish registering your personal information, click on the big green "Sign up for Github" button.
 
-![register.png](img/register.png)
+![register.png](img/setup/register.png)
 
 ####Step 2: Create a repository on Github with your class name.
 
-- On the top right hand corner, 
+- On the top right hand corner,
   1. Click on the '+' sign to bring down the selection menu.
   2. Click on the `New Repository` button with the pull-down menu.
 
-![add.png](img/add.png)
+![add.png](img/setup/add.png)
 
 - Type in the name of your class in the 'Repository name' section such as "myclass" or "ucr-cs100".
 - Set 'Creative Commons Zero v1.0 Universal' in the 'Add a license' section for more flexibility.
 
-![class.png](img/class.png)
+![class.png](img/setup/class.png)
 
 ####Step 3: Clone a mirror image of your repository to your local machine.
 
@@ -101,7 +101,7 @@ On the home directory of the class repository, run:
 ```
 $ instructortools-addgrader.sh
 ```
-![addgrader.png](img/addgrader.png)
+![addgrader.png](img/setup/addgrader.png)
 
 **NOTE:**
 This process takes more than 15 minutes to complete.
@@ -111,8 +111,8 @@ Make sure the key is generated in the computer that you always use because the k
 
 ####Step 9: Add students to your class.
 
-There are two ways to enroll students in your class.  
-The first one is to have them carefully read and follow the instructions provided by the [`Enrolling.md`](Enrolling.md) file.  
+There are two ways to enroll students in your class.
+The first one is to have them carefully read and follow the instructions provided by the [`Enrolling.md`](Enrolling.md) file.
 Otherwise, you can add them yourself by entering the following commands for each student information and generate student files:
 ```
 echo name = Example Student1 > ./people/students/student001
@@ -140,7 +140,7 @@ $ gradeassignment-all.sh assignments/assn1/
 The script will pull a local copy of each student's repository and check for the existence of the assignment.
 It will be opened up with a vim editor to edit individual student grades on a spreadsheet like this:
 
-![gradeassignment.png](img/gradeassignment.png)
+![gradeassignment.png](img/setup/gradeassignment.png)
 
 **NOTE:**
 The spreadsheet will show if the assignment was previously graded and signed.
@@ -164,7 +164,7 @@ Part 1 :5 /10
   [0 /5.5] test c
   [0 /5.5] test d
 ```
- 
+
 **NOTE:**
 Tests with blank scores mean those portions have full points.
 
@@ -175,7 +175,7 @@ $ instructortools-viewallgrades.sh
 ```
 This script will pull local copy of each student repository and display all the names and the overall scores in a table.
 
-![viewallgrades.png](img/viewallgrades.png)
+![viewallgrades.png](img/setup/viewallgrades.png)
 
 To check the grade of an individual student, the following script should be used:
 ```
