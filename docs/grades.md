@@ -40,7 +40,7 @@ This script automatically downloads the latest version of your grades repo, insp
 The `calcgrade.sh` script expects a single argument that corresponds to the UCR netid/CS account of the grade you want to check. If no argument is given, `calcgrade.sh` uses the currently logged in user.
 Below is an example of how you would run this script (and the output) if you want to find the grade of a student account:
 
-![calcgrade.gif](img/calcgrade.gif)
+![calcgrade.gif](img/grades/calcgrade.gif)
 
 Notice that ungraded assignments are marked with a grade of `---` and not included in the running total.
 
@@ -58,7 +58,7 @@ $ git log hw/hw1-rshell/grade
 
 Then I will get output similar to:
 
-![gitlog.png](img/gitlog.png)
+![gitlog.png](img/grades/gitlog.png)
 
 This tells us who has modified the file and what they've done.
 If you modify your grades, we will catch you.

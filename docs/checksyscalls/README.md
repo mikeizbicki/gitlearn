@@ -26,8 +26,8 @@ To use the script, you would run:
 ```
 $ checksyscalls.sh src/*
 ```
-![checksyscalls.gif](../img/checksyscalls.gif)
- 
+![checksyscalls.gif](../img/syscall/checksyscalls.gif)
+
 As shown in the gif above, the `checksyscalls.sh` script lists all syscalls in your source file(s) with the associated line number and `perror` function.
 You will know you've done error checking when the next line after the syscall is the `perror` function.
 The summary below the list displays the total of syscalls and `perror` functions you used, and the grade penalty you receive for every syscall you did not do error checking on.
